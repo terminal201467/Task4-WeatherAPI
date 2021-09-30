@@ -6,3 +6,17 @@
 //
 
 import Foundation
+
+
+//setClassForRequestCityAPI
+
+class CityAPI{
+    
+    //setJson
+    
+    
+    
+    
+    //setDecode
+    
+}

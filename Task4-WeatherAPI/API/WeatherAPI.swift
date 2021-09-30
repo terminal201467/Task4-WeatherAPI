@@ -7,4 +7,21 @@
 
 import Foundation
 
-//
+//setClassForRequestTheWeatherAPI
+
+
+class WeatherAPI{
+    
+    //setBaseURL
+    
+    
+    //setDecoder
+    
+    
+    //setFunctionForCity
+    
+    
+    //setFunctionForlatlon
+    
+    
+}

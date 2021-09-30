@@ -6,3 +6,19 @@
 //
 
 import Foundation
+
+struct Weather:Decodable {
+    
+    
+    
+}
+
+struct API{
+    var key:String = "71f500bc843aedee86afefe5d6329fa4"
+}
+
+
+//MARK:-setTemperatureUnitTransition
+enum TemperatureUnit{
+    case c,f
+}

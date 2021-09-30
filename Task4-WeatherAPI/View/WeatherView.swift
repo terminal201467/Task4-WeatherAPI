@@ -12,6 +12,15 @@ class WeatherView: UIView {
     //tableView
     
     
+    //stackView
+    
+    
+    //intializer
+    
+    
+    //autoLayout
+    
+    
     
 
 }
