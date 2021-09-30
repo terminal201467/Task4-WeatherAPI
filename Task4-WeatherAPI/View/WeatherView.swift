@@ -10,17 +10,39 @@ import UIKit
 class WeatherView: UIView {
 
     //tableView
-    
+    let tableView:UITableView = {
+        let tableView = UITableView()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "WeatherCell")
+        tableView.register(UITableViewHeaderFooterView.self, forCellReuseIdentifier: "Footer")
+        return tableView
+    }()
     
     //stackView
-    
+    lazy var stackView:UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [tableView])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+       return stackView
+    }()
     
     //intializer
-    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        addSubview(tableView)
+        addSubview(stackView)
+        autoLayout()
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     //autoLayout
-    
-    
-    
+    func autoLayout(){
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: topAnchor),
+            stackView.leftAnchor.constraint(equalTo: leftAnchor),
+            stackView.rightAnchor.constraint(equalTo: rightAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+    }
 
 }

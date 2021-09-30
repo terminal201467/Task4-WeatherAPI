@@ -7,18 +7,48 @@
 
 import Foundation
 
-//setDataStructForCityAPI
+//MARK:-setDataStructForCityAPI
+
 struct City:Decodable{
-    var id:Int
-    var coord:Coord
+    var coord:CityCoord
     var country:String
     var name:String
 }
 
-struct Coord:Decodable{
+struct CityCoord:Decodable{
     var lat:Double
     var lon:Double
 }
+
+struct SearchArray {
+    var cityDataArray:[City] = []
+    var resultArray:[City] = []
+    
+    
+    mutating func filterCity(for searchText:String){
+        
+        resultArray = cityDataArray.filter({filterItem -> Bool in
+    
+            let words = filterItem.name
+            
+            let isMach = words.localizedCaseInsensitiveContains(searchText)
+            
+            return isMach
+        })
+    }
+
+}
+
+
+
+
+//IdeaOfThinkAboutSearchController's String Handling
+
+//searchControllerOnlyReadAndProduct"String"
+//but lat/lon is Double
+
+
+//searchControllerlatlonFilter
 
 
 

@@ -9,6 +9,6 @@ import UIKit
 
 class WeatherHeaderViewController: UITableViewHeaderFooterView {
 
-    
+ 
 
 }

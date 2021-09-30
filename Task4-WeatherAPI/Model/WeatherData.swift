@@ -7,10 +7,47 @@
 
 import Foundation
 
-struct Weather:Decodable {
+struct WeatherCoord:Decodable {
+    var lon:Double
+    var lat:Double
+}
+
+struct MainMessage:Decodable {
+    var temp:Double
+    var feels_like:Double
+    var temp_min:Double
+    var temp_max:Double
+    var pressure:Double
+    var humidity:Int
+}
+
+struct Wind:Decodable {
+    var speed:Double
+    var deg:Int
+}
+
+struct Clouds:Decodable {
+    var all:Int
     
+}
+
+struct WeatherData:Decodable {
+    var id:Int
+    var main:String
+    var description:String
+    //var icon:String
+}
+
+struct CurrentWeatherData:Decodable{
+    var name:String
+    var id:Int
+    var dt:TimeInterval
     
-    
+    var coord:WeatherCoord
+    var main:MainMessage
+    var wind:Wind
+    var clouds:Clouds
+    var weather:[WeatherData]
 }
 
 struct API{

@@ -9,23 +9,90 @@ import UIKit
 
 class WeatherViewController: UIViewController {
     
+    let weatherView:WeatherView = .init()
+    let weatherFooterView:WeatherFooterView = .init()
     
     //MARK:-LifeCycle
+    override func loadView() {
+        super.loadView()
+        view = weatherView
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-    
-
-    //MARK:-setTableViewDelegateAndDataSource
-    func setTableViewDelegateAndDataSource(){
+        setTableViewDelegateAndDataSource()
+        setTempLabelChange()
+        setSearch()
         
     }
+    //MARK:-setMethodForCeisiusAndFahrenheitColorChange
+    @objc func labelColorChange(){
+        print("colorChange")
+        
+        var temp:TemperatureUnit = .c{
+            didSet{
+                
+            }
+        }
+        //colorChange
+        if temp == .c{
+            print("c")
+            weatherFooterView.ceisiusLabel.textColor = .white
+            weatherFooterView.fahrenheitLabel.textColor = .gray
+            temp = .f
+            
+            //UnitChange
+            
+        }else{
+            print("f")
+            weatherFooterView.ceisiusLabel.textColor = .gray
+            weatherFooterView.fahrenheitLabel.textColor = .white
+            temp = .c
+            
+            //UnitChange
+        }
+    }
     
+    //MARK:-setMethodForSearchMark
+    @objc func toSearchPage(){
+        let weatherViewController = WeatherViewController()
+        weatherViewController.modalPresentationStyle = .formSheet
+        weatherViewController.modalTransitionStyle = .coverVertical
+        let nav = UINavigationController(rootViewController: weatherViewController)
+        present(nav, animated: true)
+    }
     
-
+    //MARK:-setTableViewDelegateAndDataSource
+    func setTableViewDelegateAndDataSource(){
+        weatherView.tableView.delegate = self
+        weatherView.tableView.dataSource = self
+    }
+    
+    //MARK:-setTempLabelChange
+    func setTempLabelChange(){
+        let labelChange = UITapGestureRecognizer(target: self, action: #selector(WeatherViewController.labelColorChange))
+        weatherFooterView.stackView.addGestureRecognizer(labelChange)
+    }
+    
+    //MARK:-setSearch
+    func setSearch(){
+        weatherFooterView.searchMark.addTarget(self, action: #selector(WeatherViewController.toSearchPage), for: .touchUpInside)
+    }
+    
 }
 
 //MARK:-extensionForTableView
+
+extension WeatherViewController:UITableViewDelegate,UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        //return the Cell number For WeatherPage
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        //return the Cell content For WeatherPage
+    }
+    
+
+}
