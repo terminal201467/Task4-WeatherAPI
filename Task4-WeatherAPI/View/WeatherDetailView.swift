@@ -8,7 +8,39 @@
 import UIKit
 
 class WeatherDetailView: UIView {
-
-
+    
+    let tableView:UITableView = {
+        let tableView = UITableView()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "WeatherDetail")
+        tableView.register(WeatherDetailHeaderView.self,forCellReuseIdentifier: "Header")
+        tableView.separatorStyle = .singleLine
+        return tableView
+    }()
+    
+    lazy var stackView:UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [tableView])
+        
+        return stackView
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        addSubview(tableView)
+        addSubview(stackView)
+        autoLayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func autoLayout(){
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: topAnchor),
+            stackView.rightAnchor.constraint(equalTo: rightAnchor),
+            stackView.leftAnchor.constraint(equalTo: leftAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+    }
 
 }

@@ -63,7 +63,12 @@ class WeatherViewController: UIViewController {
     }
     
     @objc func toSearchLatLonPage(){
-        
+        ///create a new page
+        let latLonSearchViewController = LatLonSearchViewController()
+        latLonSearchViewController.modalPresentationStyle = .formSheet
+        latLonSearchViewController.modalTransitionStyle = .coverVertical
+        let nav = UINavigationController(rootViewController: latLonSearchViewController)
+        present(nav, animated: true)
     }
     
     //MARK:-setTableViewDelegateAndDataSource
@@ -75,17 +80,17 @@ class WeatherViewController: UIViewController {
     //MARK:-setTempLabelChange
     func setTempLabelChange(){
         let labelChange = UITapGestureRecognizer(target: self, action: #selector(WeatherViewController.labelColorChange))
-        weatherFooterView.stackView.addGestureRecognizer(labelChange)
+        weatherFooterView.tempStackView.addGestureRecognizer(labelChange)
     }
     
     //MARK:-setSearch
     func setSearchCity(){
-        weatherFooterView.searchMark.addTarget(self, action: #selector(WeatherViewController.toSearchPage), for: .touchUpInside)
+        weatherFooterView.locationSearchMark.addTarget(self, action: #selector(WeatherViewController.toSearchPage), for: .touchUpInside)
     }
     
     //MARK:-setSearchByLatLon
     func setSearchLatLon(){
-        
+        weatherFooterView.latLonSearchMark.addTarget(self, action: #selector(WeatherViewController.toSearchLatLonPage), for: .touchUpInside)
     }
     
 }

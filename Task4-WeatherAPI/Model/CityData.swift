@@ -43,6 +43,12 @@ struct SearchArray {
     }
 }
 
+///經緯度要求
+struct latLonData {
+    var lat:String
+    var lon:String
+}
+
 
 
 

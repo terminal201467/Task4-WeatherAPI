@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol CityDataDelegate {
+    func cityDataDelegate(text:String)
+}
+
 //RememberWriteControllerOnly
 class SearchViewController: UIViewController{
 

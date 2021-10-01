@@ -10,6 +10,13 @@ import Foundation
 struct WeatherCoord:Decodable {
     var lon:Double
     var lat:Double
+    
+    var lonString:String{
+        return "\(lon)"
+    }
+    var latString:String{
+        return "\(lat)"
+    }
 }
 
 struct MainMessage:Decodable {

@@ -6,6 +6,8 @@
 //
 
 import UIKit
+//setToPass
+
 
 class SearchResultViewController: UIViewController {
     
@@ -37,22 +39,27 @@ extension SearchResultViewController:UITableViewDelegate,UITableViewDataSource{
     }
     //theDataContentInCell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //RegisterTheCell
+        //1.RegisterTheCell
         
-        //TheCellLabelContent
+        //2.TheCellLabelContent
         
-        //returnCell
+        //3.returnCell
+        
     }
     
     //WhenSelectCellWouldHappend
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        //CellBeSelect(InTheTableCell)
+        //1.CellBeSelect(InTheTableCell)
         
-        //PassTheDataToDetailPage
+        //2.PassTheDataToDetailPage
+        let cityDataPass:CityDataDelegate!
+//        cityDataPass.cityDataDelegate(text: <#T##String#>)
         
-        //ShowUPtheWeatherDetailPage
+        //3.ShowUPtheWeatherDetailPage
         
     }
     
 }
+
+
