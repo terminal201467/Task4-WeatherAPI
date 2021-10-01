@@ -22,7 +22,7 @@ class WeatherViewController: UIViewController {
         super.viewDidLoad()
         setTableViewDelegateAndDataSource()
         setTempLabelChange()
-        setSearch()
+        setSearchCity()
         
     }
     //MARK:-setMethodForCeisiusAndFahrenheitColorChange
@@ -62,6 +62,10 @@ class WeatherViewController: UIViewController {
         present(nav, animated: true)
     }
     
+    @objc func toSearchLatLonPage(){
+        
+    }
+    
     //MARK:-setTableViewDelegateAndDataSource
     func setTableViewDelegateAndDataSource(){
         weatherView.tableView.delegate = self
@@ -75,8 +79,13 @@ class WeatherViewController: UIViewController {
     }
     
     //MARK:-setSearch
-    func setSearch(){
+    func setSearchCity(){
         weatherFooterView.searchMark.addTarget(self, action: #selector(WeatherViewController.toSearchPage), for: .touchUpInside)
+    }
+    
+    //MARK:-setSearchByLatLon
+    func setSearchLatLon(){
+        
     }
     
 }

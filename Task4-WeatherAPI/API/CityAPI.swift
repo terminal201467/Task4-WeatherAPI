@@ -10,6 +10,7 @@ import Foundation
 class CityAPI{
     //setJson
     var searchArray:SearchArray = .init()
+    
     func ReadJson(){
         do{
             let jsonData = Bundle.main.url(forResource: "current.city.list", withExtension: "json")!
@@ -17,9 +18,9 @@ class CityAPI{
             //setDecoder
             let cityData = try JSONDecoder().decode([City].self, from: data)
             //GetAArrayIncloud:coord、country、name
-            searchArray.cityDataArray = cityData.map({City(coord: $0.coord,
-                                      country: $0.country,
-                                      name: $0.name)})
+            searchArray.cityData = cityData.map({City(coord: $0.coord,
+                                                      country: $0.country,
+                                                      name: $0.name)})
         }catch{
             print("Not Decode")
         }

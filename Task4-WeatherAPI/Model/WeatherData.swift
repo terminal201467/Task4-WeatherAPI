@@ -19,6 +19,21 @@ struct MainMessage:Decodable {
     var temp_max:Double
     var pressure:Double
     var humidity:Int
+    
+    var tempInFahrenheit:Double{
+        let f = 9/5 * temp + 32
+        return f
+    }
+    
+    var tempMinFahrenheit:Double{
+        let f = 9/5 * temp_min + 32
+        return f
+    }
+    
+    var tempMaxFahrenheit:Double{
+        let f = 9/5 * temp_max + 32
+        return f
+    }
 }
 
 struct Wind:Decodable {
@@ -59,3 +74,5 @@ struct API{
 enum TemperatureUnit{
     case c,f
 }
+
+

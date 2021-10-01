@@ -13,6 +13,14 @@ struct City:Decodable{
     var coord:CityCoord
     var country:String
     var name:String
+    
+    var latString:String{
+        return "\(coord.lat)"
+    }
+    var lonString:String{
+        return "\(coord.lon)"
+    }
+
 }
 
 struct CityCoord:Decodable{
@@ -21,23 +29,23 @@ struct CityCoord:Decodable{
 }
 
 struct SearchArray {
-    var cityDataArray:[City] = []
-    var resultArray:[City] = []
+    var cityData:[City] = []
+    var resultData:[String] = []
+    var cityNameArray:[String]{ return cityData.map({$0.name}) }
     
-    
-    mutating func filterCity(for searchText:String){
-        
-        resultArray = cityDataArray.filter({filterItem -> Bool in
-    
-            let words = filterItem.name
-            
+    ///filter
+    mutating func filterArray(for searchText:String){
+        resultData = cityNameArray.filter({filterItem -> Bool in
+            let words = filterItem
             let isMach = words.localizedCaseInsensitiveContains(searchText)
-            
             return isMach
         })
     }
-
 }
+
+
+
+
 
 
 
@@ -48,7 +56,7 @@ struct SearchArray {
 //but lat/lon is Double
 
 
-//searchControllerlatlonFilter
+
 
 
 
