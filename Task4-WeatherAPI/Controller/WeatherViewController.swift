@@ -11,6 +11,12 @@ class WeatherViewController: UIViewController {
     
     let weatherView:WeatherView = .init()
     let weatherFooterView:WeatherFooterView = .init()
+    let weather:[CurrentWeatherData] = []
+    var temp:TemperatureUnit = .c{
+        didSet{
+            weatherView.tableView.reloadData()
+        }
+    }
     
     //MARK:-LifeCycle
     override func loadView() {
@@ -23,17 +29,13 @@ class WeatherViewController: UIViewController {
         setTableViewDelegateAndDataSource()
         setTempLabelChange()
         setSearchCity()
+        setSearchLatLon()
         
     }
     //MARK:-setMethodForCeisiusAndFahrenheitColorChange
     @objc func labelColorChange(){
         print("colorChange")
-        
-        var temp:TemperatureUnit = .c{
-            didSet{
-                
-            }
-        }
+
         //colorChange
         if temp == .c{
             print("c")
@@ -55,10 +57,10 @@ class WeatherViewController: UIViewController {
     
     //MARK:-setMethodForSearchMark
     @objc func toSearchPage(){
-        let weatherViewController = WeatherViewController()
-        weatherViewController.modalPresentationStyle = .formSheet
-        weatherViewController.modalTransitionStyle = .coverVertical
-        let nav = UINavigationController(rootViewController: weatherViewController)
+        let searchViewController = SearchViewController()
+        searchViewController.modalPresentationStyle = .formSheet
+        searchViewController.modalTransitionStyle = .coverVertical
+        let nav = UINavigationController(rootViewController: searchViewController)
         present(nav, animated: true)
     }
     
@@ -99,14 +101,26 @@ class WeatherViewController: UIViewController {
 
 extension WeatherViewController:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         //return the Cell number For WeatherPage
+        return weather.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         //return the Cell content For WeatherPage
+        let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherCell", for: indexPath)
+        cell.textLabel?.text = weather.description
+        return cell
     }
     
-
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 100
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return weatherFooterView
+    }
+    
+    
 }
+

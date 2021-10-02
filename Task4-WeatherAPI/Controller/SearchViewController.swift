@@ -16,6 +16,7 @@ class SearchViewController: UIViewController{
 
     //MARK:-setView
     let searchView:SearchView = .init()
+    var searchArray:SearchArray = .init()
     
     //MARK:-LifeCycle
     override func loadView() {
@@ -35,15 +36,16 @@ class SearchViewController: UIViewController{
         let searchController = UISearchController(searchResultsController:searchResultViewControler)
         
         searchController.searchBar.placeholder = "搜尋"
-        searchController.searchBar.setValue("取消", forKey: "Cancel")
+        searchController.searchBar.setValue("取消", forKey: "cancelButtonText")
         searchController.searchBar.tintColor = .white
         searchController.searchBar.showsCancelButton = true
         searchController.searchBar.searchTextField.clearButtonMode = .whileEditing
+        searchController.hidesNavigationBarDuringPresentation = false
         searchController.obscuresBackgroundDuringPresentation = true
         
         //naviagationBarEqualToSearchController
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 15)]
-        navigationItem.title = "輸入城市、經度緯度"
+        title = "輸入城市"
         navigationItem.searchController = searchController
         definesPresentationContext = true
         
@@ -66,6 +68,7 @@ extension SearchViewController: UISearchResultsUpdating{
     func updateSearchResults(for searchController: UISearchController) {
         if let text = searchController.searchBar.text{
         //Everything about the searching Result will be handle in this scope
+            searchArray.filterArray(for: text)
             
             print(text)
         }

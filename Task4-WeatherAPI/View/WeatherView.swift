@@ -13,7 +13,8 @@ class WeatherView: UIView {
     let tableView:UITableView = {
         let tableView = UITableView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "WeatherCell")
-        tableView.register(UITableViewHeaderFooterView.self, forCellReuseIdentifier: "Footer")
+        tableView.register(WeatherFooterView.self,forHeaderFooterViewReuseIdentifier: "Footer")
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     

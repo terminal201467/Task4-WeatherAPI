@@ -37,7 +37,7 @@ class WeatherFooterView: UITableViewHeaderFooterView {
     
     let searchCityLabel:UILabel = {
        var label = UILabel()
-        label.text = "以城市搜尋->"
+        label.text = "以城市搜尋鈕->"
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -45,7 +45,7 @@ class WeatherFooterView: UITableViewHeaderFooterView {
     
     let searchByLatLon:UILabel = {
         var label = UILabel()
-        label.text = "以經緯度搜尋->"
+        label.text = "經緯度搜尋鈕->"
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -81,11 +81,12 @@ class WeatherFooterView: UITableViewHeaderFooterView {
         let stackView = UIStackView(arrangedSubviews: [searchByLatLon,latLonSearchMark])
         stackView.axis = .horizontal
         stackView.distribution = .equalSpacing
-        stackView.spacing = 4
+        stackView.spacing = 6
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
+    ///temperature
     lazy var tempStackView:UIStackView = {
        let stackView = UIStackView(arrangedSubviews: [ceisiusLabel,slash,fahrenheitLabel])
         stackView.axis = .horizontal
@@ -95,12 +96,11 @@ class WeatherFooterView: UITableViewHeaderFooterView {
        return stackView
     }()
     
-    //
+    ///
     lazy var searchStackView:UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [cityStackView,latLonSearchMark])
+        let stackView = UIStackView(arrangedSubviews: [cityStackView,latlonStackView])
         stackView.axis = .vertical
-        stackView.distribution = .equalSpacing
-        stackView.spacing  = 4
+        stackView.spacing  = 1
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -109,7 +109,7 @@ class WeatherFooterView: UITableViewHeaderFooterView {
         let stackView = UIStackView(arrangedSubviews: [tempStackView,searchStackView])
         stackView.axis = .horizontal
         stackView.distribution = .equalCentering
-        stackView.spacing = 3
+        stackView.spacing = 1
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.isUserInteractionEnabled = true
         return stackView
@@ -121,11 +121,13 @@ class WeatherFooterView: UITableViewHeaderFooterView {
         contentView.addSubview(ceisiusLabel)
         contentView.addSubview(slash)
         contentView.addSubview(fahrenheitLabel)
+        contentView.addSubview(searchByLatLon)
         
         contentView.addSubview(tempStackView)
         contentView.addSubview(cityStackView)
         contentView.addSubview(latLonSearchMark)
         contentView.addSubview(footerStackView)
+        
         contentView.backgroundColor = .black
         
         autoLayout()

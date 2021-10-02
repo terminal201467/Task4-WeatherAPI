@@ -64,7 +64,10 @@ class LatLonSearchViewController: UIViewController {
 }
 
 extension LatLonSearchViewController: UITextFieldDelegate{
+    ///when the return press will happend
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        textField.text
+        
         self.view.endEditing(true)
         return true
     }

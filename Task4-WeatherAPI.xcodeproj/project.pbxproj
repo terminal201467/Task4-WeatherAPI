@@ -23,13 +23,13 @@
 		9717D1F227046058000A1899 /* WeatherDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9717D1F127046058000A1899 /* WeatherDetailView.swift */; };
 		979EDDE927054E70001342E8 /* WeatherFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 979EDDE827054E70001342E8 /* WeatherFooterView.swift */; };
 		979EDDEB27057FBE001342E8 /* Json.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 979EDDEA27057FBE001342E8 /* Json.xcassets */; };
-		979EDDF3270580C8001342E8 /* .current.city.list.json.icloud in Resources */ = {isa = PBXBuildFile; fileRef = 979EDDF2270580C8001342E8 /* .current.city.list.json.icloud */; };
 		979EDDF52705868C001342E8 /* SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 979EDDF42705868C001342E8 /* SearchResultView.swift */; };
 		979EDDF7270586B1001342E8 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 979EDDF6270586B1001342E8 /* SearchResultViewController.swift */; };
 		979EDDF92706B419001342E8 /* LatLonSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 979EDDF82706B419001342E8 /* LatLonSearchViewController.swift */; };
 		979EDDFB2706B56D001342E8 /* LatLonSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 979EDDFA2706B56D001342E8 /* LatLonSearchView.swift */; };
 		979EDDFD2706C12A001342E8 /* WeatherViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 979EDDFC2706C12A001342E8 /* WeatherViewTableViewCell.swift */; };
 		979EDE002706E327001342E8 /* WeatherDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 979EDDFF2706E327001342E8 /* WeatherDetailHeaderView.swift */; };
+		979EDE0827085D04001342E8 /* current.city.list.json in Resources */ = {isa = PBXBuildFile; fileRef = 979EDE0727085D04001342E8 /* current.city.list.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,13 +51,13 @@
 		9717D1F127046058000A1899 /* WeatherDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailView.swift; sourceTree = "<group>"; };
 		979EDDE827054E70001342E8 /* WeatherFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherFooterView.swift; sourceTree = "<group>"; };
 		979EDDEA27057FBE001342E8 /* Json.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Json.xcassets; sourceTree = "<group>"; };
-		979EDDF2270580C8001342E8 /* .current.city.list.json.icloud */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = .current.city.list.json.icloud; sourceTree = "<group>"; };
 		979EDDF42705868C001342E8 /* SearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultView.swift; sourceTree = "<group>"; };
 		979EDDF6270586B1001342E8 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		979EDDF82706B419001342E8 /* LatLonSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatLonSearchViewController.swift; sourceTree = "<group>"; };
 		979EDDFA2706B56D001342E8 /* LatLonSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatLonSearchView.swift; sourceTree = "<group>"; };
 		979EDDFC2706C12A001342E8 /* WeatherViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewTableViewCell.swift; sourceTree = "<group>"; };
 		979EDDFF2706E327001342E8 /* WeatherDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailHeaderView.swift; sourceTree = "<group>"; };
+		979EDE0727085D04001342E8 /* current.city.list.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = current.city.list.json; path = ../../../../current.city.list.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,7 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				979EDDEA27057FBE001342E8 /* Json.xcassets */,
-				979EDDF2270580C8001342E8 /* .current.city.list.json.icloud */,
+				979EDE0727085D04001342E8 /* current.city.list.json */,
 			);
 			path = Json;
 			sourceTree = "<group>";
@@ -233,7 +233,7 @@
 			files = (
 				9717D1CC27043AB7000A1899 /* LaunchScreen.storyboard in Resources */,
 				9717D1C927043AB7000A1899 /* Assets.xcassets in Resources */,
-				979EDDF3270580C8001342E8 /* .current.city.list.json.icloud in Resources */,
+				979EDE0827085D04001342E8 /* current.city.list.json in Resources */,
 				979EDDEB27057FBE001342E8 /* Json.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -404,6 +404,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Task4-WeatherAPI/Info.plist";
+				"INFOPLIST_FILE[sdk=*]" = "Task4-WeatherAPI/Supporting File/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -422,6 +423,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Task4-WeatherAPI/Info.plist";
+				"INFOPLIST_FILE[sdk=*]" = "Task4-WeatherAPI/Supporting File/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
