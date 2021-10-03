@@ -16,7 +16,8 @@ class SearchViewController: UIViewController{
 
     //MARK:-setView
     let searchView:SearchView = .init()
-    var searchArray:SearchArray = .init()
+    var cityAPI:CityAPI = .init()
+    var searchController:UISearchController!
     
     //MARK:-LifeCycle
     override func loadView() {
@@ -24,17 +25,25 @@ class SearchViewController: UIViewController{
         view = searchView
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        DispatchQueue.main.async {
+            self.searchController.searchBar.becomeFirstResponder()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setSearchController()
+        setTableViewDelegateDataSource()
+        cityAPI.ReadJson()
+        
         
     }
     
     //MARK:-setSeachController
     func setSearchController(){
-        let searchResultViewControler = SearchResultViewController()
-        let searchController = UISearchController(searchResultsController:searchResultViewControler)
         
+        searchController = UISearchController(searchResultsController:nil)
         searchController.searchBar.placeholder = "搜尋"
         searchController.searchBar.setValue("取消", forKey: "cancelButtonText")
         searchController.searchBar.tintColor = .white
@@ -54,6 +63,11 @@ class SearchViewController: UIViewController{
         searchController.searchResultsUpdater = self
     }
     
+    //MARK:-setTableViewDelegateAndDataSource
+    func setTableViewDelegateDataSource(){
+        searchView.tableView.delegate = self
+        searchView.tableView.dataSource = self
+    }
 }
 
 //MARK:-setSearchBarDelegate
@@ -68,9 +82,63 @@ extension SearchViewController: UISearchResultsUpdating{
     func updateSearchResults(for searchController: UISearchController) {
         if let text = searchController.searchBar.text{
         //Everything about the searching Result will be handle in this scope
-            searchArray.filterArray(for: text)
+            cityAPI.searchArray.filterArray(for: text)
             
-            print(text)
+            print("搜尋結果：\(cityAPI.searchArray.resultData)")
+            print("搜尋列：\(text)")
         }
+        searchView.tableView.reloadData()
+    }
+}
+
+extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
+    //theDataCountInTheTable
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if cityAPI.searchArray.resultData.count >= 1{
+            
+            return cityAPI.searchArray.resultData.count
+            
+        }else{
+            
+            return cityAPI.searchArray.cityNameArray.count
+            
+        }
+        
+    }
+    //theDataContentInCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        //1.RegisterTheCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath)
+
+        
+        //2.TheCellLabelContent
+        if cityAPI.searchArray.resultData.count >= 1{
+            
+            cell.textLabel?.text = cityAPI.searchArray.resultData[indexPath.row]
+            
+        }else{
+            
+            cell.textLabel?.text = cityAPI.searchArray.cityNameArray[indexPath.row]
+        }
+        
+        return cell
+    }
+    
+    //WhenSelectCellWouldHappend
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        //1.CellBeSelect(InTheTableCell)
+        
+        //2.PassTheDataToDetailPage
+        let cityDataPass:CityDataDelegate!
+//        cityDataPass.cityDataDelegate(text: <#T##String#>)
+        
+        //3.ShowUPtheWeatherDetailPage
+        let weatherDetailViewController = WeatherDetailViewController()
+        weatherDetailViewController.modalTransitionStyle = .coverVertical
+        weatherDetailViewController.modalPresentationStyle = .formSheet
+        present(weatherDetailViewController, animated: true, completion: nil)
+        
     }
 }
