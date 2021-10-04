@@ -28,6 +28,8 @@ struct CityCoord:Decodable{
     var lon:Double
 }
 
+
+//MARK:-searchViewController's Data
 struct SearchArray {
     var cityData:[City] = []
     var resultData:[String] = []
@@ -43,26 +45,15 @@ struct SearchArray {
     }
 }
 
+
+
+
+
 ///經緯度要求
 struct latLonData {
     var lat:String
     var lon:String
 }
-
-
-
-
-
-
-
-
-//IdeaOfThinkAboutSearchController's String Handling
-
-//searchControllerOnlyReadAndProduct"String"
-//but lat/lon is Double
-
-
-
 
 
 

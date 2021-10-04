@@ -7,6 +7,7 @@
 
 import Foundation
 
+//MARK:-WeatherAPI DataStruct
 struct WeatherCoord:Decodable {
     var lon:Double
     var lat:Double
@@ -83,3 +84,17 @@ enum TemperatureUnit{
 }
 
 
+
+//MARK:-WeatherViewController's DataStruct
+struct WeatherArray {
+    var todayWeatherData:[CurrentWeatherData] = []
+    
+    var cityString:String
+    var temperature:String
+    
+}
+
+//MARK:-WeatherDetailViewController's DataStruct
+struct WeatherDetail {
+    var currentWeatherData:CurrentWeatherData
+}

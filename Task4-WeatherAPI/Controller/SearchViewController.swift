@@ -16,8 +16,11 @@ class SearchViewController: UIViewController{
 
     //MARK:-setView
     let searchView:SearchView = .init()
+    let weatherDetailViewController = WeatherDetailViewController()
     var cityAPI:CityAPI = .init()
     var searchController:UISearchController!
+    
+    var cityDataPass:CityDataDelegate?
     
     //MARK:-LifeCycle
     override func loadView() {
@@ -111,7 +114,6 @@ extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
         //1.RegisterTheCell
         let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath)
 
-        
         //2.TheCellLabelContent
         if cityAPI.searchArray.resultData.count >= 1{
             
@@ -127,15 +129,13 @@ extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
     
     //WhenSelectCellWouldHappend
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
         //1.CellBeSelect(InTheTableCell)
+        tableView.deselectRow(at: indexPath, animated: true)
         
         //2.PassTheDataToDetailPage
-        let cityDataPass:CityDataDelegate!
-//        cityDataPass.cityDataDelegate(text: <#T##String#>)
+        cityDataPass?.cityDataDelegate(text: cityAPI.searchArray.resultData[indexPath.row])
         
         //3.ShowUPtheWeatherDetailPage
-        let weatherDetailViewController = WeatherDetailViewController()
         weatherDetailViewController.modalTransitionStyle = .coverVertical
         weatherDetailViewController.modalPresentationStyle = .formSheet
         present(weatherDetailViewController, animated: true, completion: nil)

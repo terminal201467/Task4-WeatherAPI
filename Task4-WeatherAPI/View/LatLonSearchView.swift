@@ -85,6 +85,7 @@ class LatLonSearchView: UIView {
         addSubview(lonStackView)
         addSubview(latStackView)
         addSubview(stackView)
+        backgroundColor = .black
         autoLayout()
     }
     

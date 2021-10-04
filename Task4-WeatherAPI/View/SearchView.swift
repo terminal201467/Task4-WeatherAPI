@@ -36,8 +36,6 @@ class SearchView: UIView {
     }
     
     func autoLayout(){
-        
-//        stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor),
             stackView.leftAnchor.constraint(equalTo: leftAnchor),

@@ -14,6 +14,7 @@ protocol LatLonDataDelegate {
 class LatLonSearchViewController: UIViewController {
     
     let latlonView:LatLonSearchView = .init()
+    let latlonData:LatLonDataDelegate? = nil
     
     //MARK:-LifeCycle
     override func loadView() {
@@ -38,10 +39,10 @@ class LatLonSearchViewController: UIViewController {
         present(weatherDetailViewController, animated: true, completion: nil)
         
         ///pass lat lon data
-        let latlonData:LatLonDataDelegate!
+        
 //        latlonData.LatLonDataDelegate(lat: <#T##String#>, lon: <#T##String#>)
     }
-    
+    //MARK:-setNavigationBar
     func setNavigationBar(){
         title = "輸入經緯度"
         
@@ -67,6 +68,7 @@ extension LatLonSearchViewController: UITextFieldDelegate{
     ///when the return press will happend
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 //        textField.text
+        textField.text
         
         self.view.endEditing(true)
         return true
