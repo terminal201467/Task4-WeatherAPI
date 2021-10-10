@@ -9,6 +9,8 @@ import UIKit
 
 class WeatherDetailHeaderView: UITableViewHeaderFooterView {
     
+    static let identifier = "Header"
+    
     ///PlaceLabel
     let cityLabel:UILabel = {
         var label = UILabel()
@@ -64,7 +66,6 @@ class WeatherDetailHeaderView: UITableViewHeaderFooterView {
         stackView.alignment = .center
         return stackView
     }()
-
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)

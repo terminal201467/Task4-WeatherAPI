@@ -126,7 +126,6 @@ extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
         
         return cell
     }
-    
     //WhenSelectCellWouldHappend
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //1.CellBeSelect(InTheTableCell)
@@ -135,9 +134,11 @@ extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
         //2.PassTheDataToDetailPage
         cityDataPass?.cityDataDelegate(text: cityAPI.searchArray.resultData[indexPath.row])
         
+        
         //3.ShowUPtheWeatherDetailPage
         weatherDetailViewController.modalTransitionStyle = .coverVertical
         weatherDetailViewController.modalPresentationStyle = .formSheet
+        
         present(weatherDetailViewController, animated: true, completion: nil)
         
     }

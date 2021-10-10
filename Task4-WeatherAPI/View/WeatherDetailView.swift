@@ -12,7 +12,7 @@ class WeatherDetailView: UIView {
     let tableView:UITableView = {
         let tableView = UITableView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "WeatherDetail")
-        tableView.register(WeatherDetailHeaderView.self,forCellReuseIdentifier: "Header")
+        tableView.register(WeatherDetailHeaderView.self,forHeaderFooterViewReuseIdentifier:"Header")
         tableView.separatorStyle = .singleLine
         return tableView
     }()

@@ -8,7 +8,7 @@
 import Foundation
 
 //MARK:-WeatherAPI DataStruct
-struct WeatherCoord:Decodable {
+struct WeatherCoord:Codable {
     var lon:Double
     var lat:Double
     
@@ -20,13 +20,17 @@ struct WeatherCoord:Decodable {
     }
 }
 
-struct MainMessage:Decodable {
+struct MainMessage:Codable {
     var temp:Double
     var feels_like:Double
     var temp_min:Double
     var temp_max:Double
     var pressure:Double
     var humidity:Int
+    
+    var tempString:String{
+        return "\(temp)°"
+    }
     
     var tempInFahrenheit:Double{
         let f = 9/5 * temp + 32
@@ -44,24 +48,24 @@ struct MainMessage:Decodable {
     }
 }
 
-struct Wind:Decodable {
+struct Wind:Codable {
     var speed:Double
     var deg:Int
 }
 
-struct Clouds:Decodable {
+struct Clouds:Codable {
     var all:Int
     
 }
 
-struct WeatherData:Decodable {
+struct WeatherData:Codable {
     var id:Int
     var main:String
     var description:String
     //var icon:String
 }
 
-struct CurrentWeatherData:Decodable{
+struct CurrentWeatherData:Codable{
     var name:String
     var id:Int
     var dt:TimeInterval
@@ -85,16 +89,21 @@ enum TemperatureUnit{
 
 
 
-//MARK:-WeatherViewController's DataStruct
+//MARK:-WeatherMainViewController's DataStruct
 struct WeatherArray {
     var todayWeatherData:[CurrentWeatherData] = []
-    
     var cityString:String
     var temperature:String
-    
 }
 
 //MARK:-WeatherDetailViewController's DataStruct
 struct WeatherDetail {
-    var currentWeatherData:CurrentWeatherData
+    var weatherData:CurrentWeatherData? = nil
+    ///this place will be set the weather content ,bcause need to set up the Array in it
+    
+    var city:String = ""
+    var lonString:String = ""
+    var latString:String = ""
+    
+    var weatherDetailDataArray:[String] = []
 }

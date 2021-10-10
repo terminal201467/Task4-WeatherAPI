@@ -14,7 +14,7 @@ protocol LatLonDataDelegate {
 class LatLonSearchViewController: UIViewController {
     
     let latlonView:LatLonSearchView = .init()
-    let latlonData:LatLonDataDelegate? = nil
+    var latlonData:LatLonDataDelegate?
     
     //MARK:-LifeCycle
     override func loadView() {
@@ -45,6 +45,7 @@ class LatLonSearchViewController: UIViewController {
     //MARK:-setNavigationBar
     func setNavigationBar(){
         title = "輸入經緯度"
+        navigationController?.navigationBar.tintColor = .white
         
         let correctButton = UIBarButtonItem(title: "確定", style: .plain, target: self, action: #selector(LatLonSearchViewController.correct))
         
@@ -68,7 +69,7 @@ extension LatLonSearchViewController: UITextFieldDelegate{
     ///when the return press will happend
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 //        textField.text
-        textField.text
+//        textField.text
         
         self.view.endEditing(true)
         return true
