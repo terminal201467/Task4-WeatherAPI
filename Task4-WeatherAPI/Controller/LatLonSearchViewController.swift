@@ -16,6 +16,9 @@ class LatLonSearchViewController: UIViewController {
     let latlonView:LatLonSearchView = .init()
     var latlonData:LatLonDataDelegate?
     
+    var weatherDetail:WeatherDetail = .init()
+//    let weatherDetailViewController = WeatherDetailViewController()
+    
     //MARK:-LifeCycle
     override func loadView() {
         super.loadView()
@@ -37,10 +40,8 @@ class LatLonSearchViewController: UIViewController {
         weatherDetailViewController.modalTransitionStyle = .coverVertical
         weatherDetailViewController.modalPresentationStyle = .formSheet
         present(weatherDetailViewController, animated: true, completion: nil)
-        
-        ///pass lat lon data
-        
-//        latlonData.LatLonDataDelegate(lat: <#T##String#>, lon: <#T##String#>)
+        latlonData?.LatLonDataDelegate(lat: weatherDetail.latString,
+                                      lon: weatherDetail.lonString)
     }
     //MARK:-setNavigationBar
     func setNavigationBar(){
@@ -60,19 +61,28 @@ class LatLonSearchViewController: UIViewController {
         latlonView.latTextField.delegate = self
         latlonView.lonTextField.delegate = self
     }
-    
-    //WhereCanGetTheInputData?
+
 
 }
 
 extension LatLonSearchViewController: UITextFieldDelegate{
     ///when the return press will happend
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        textField.text
-//        textField.text
         
         self.view.endEditing(true)
         return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        //1.Take value from textField
+        weatherDetail.latString = latlonView.latTextField.text!
+        weatherDetail.lonString = latlonView.lonTextField.text!
+        
+        //2.Pass the value to WeatherDetailViewController
+        latlonData?.LatLonDataDelegate(lat: weatherDetail.latString,
+                                       lon: weatherDetail.lonString)
+
     }
     
     

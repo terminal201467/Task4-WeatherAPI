@@ -100,7 +100,6 @@ struct WeatherArray {
 struct WeatherDetail {
     var weatherData:CurrentWeatherData? = nil
     ///this place will be set the weather content ,bcause need to set up the Array in it
-    
     var city:String = ""
     var lonString:String = ""
     var latString:String = ""

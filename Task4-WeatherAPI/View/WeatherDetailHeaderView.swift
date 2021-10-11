@@ -77,6 +77,7 @@ class WeatherDetailHeaderView: UITableViewHeaderFooterView {
         addSubview(minLabel)
         addSubview(maxMinTemperatureStackView)
         addSubview(stackView)
+        
         autoLayout()
     }
     

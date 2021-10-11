@@ -12,13 +12,9 @@ class WeatherDetailViewController: UIViewController {
     let weatherAPI = WeatherAPI()
     let weatherDetailView = WeatherDetailView()
     let weatherHeaderView:WeatherDetailHeaderView = .init()
+    var weatherDetail:WeatherDetail = .init()
     
     //MARK:-LifeCycle
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        
-    }
-    
     override func loadView() {
         super.loadView()
         view = weatherDetailView
@@ -32,8 +28,6 @@ class WeatherDetailViewController: UIViewController {
     }
     
     //MARK:-setMethodGetWeatherData
-
-    
     func setTableViewDelegate(){
         weatherDetailView.tableView.delegate = self
         weatherDetailView.tableView.dataSource = self
@@ -42,6 +36,7 @@ class WeatherDetailViewController: UIViewController {
 
 extension WeatherDetailViewController:UITableViewDelegate,UITableViewDataSource{
     
+    ///Table
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return weatherAPI.weatherDetail.weatherDetailDataArray.count
     }
@@ -56,13 +51,15 @@ extension WeatherDetailViewController:UITableViewDelegate,UITableViewDataSource{
         //3.return cell
         return cell
     }
+    
     ///Header
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 500
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return weatherHeaderView
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "Header") as? WeatherDetailHeaderView
+        return header
     }
 }
 
@@ -72,25 +69,21 @@ extension WeatherDetailViewController:CityDataDelegate,LatLonDataDelegate{
     ///accept the city Data
     func cityDataDelegate(text: String) {
         ///request the weather data by city
+        print(text)
         
-        print("確認城市搜尋頁面的傳值\(text)")
+//        print("確認城市搜尋頁面的傳值:\(weatherAPI.weatherDetail.city)")
+        
         ///the get weather data should receive by a DataStruct
-        
-//        print("程式資料結構：\(weatherAPI.weatherDetail.city)")
         
     }
     
     ///accept the lat lon Data
     func LatLonDataDelegate(lat: String, lon: String) {
         ///request the weather data by lat lon
-        print("\(lat)")
-        if lat != nil && lon != nil{
-            weatherAPI.weatherDetail.latString = lat
-            weatherAPI.weatherDetail.lonString = lon
-        }
-        ///the get weather data should receive by a DataStruct
-//        print("經度傳值：\(weatherAPI.weatherDetail.latString)")
-//        print("緯度傳值：\(weatherAPI.weatherDetail.lonString)")
+        
+        print(lat)
+        print(lon)
+        
         
     }
 }
