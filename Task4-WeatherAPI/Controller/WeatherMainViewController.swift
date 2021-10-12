@@ -11,12 +11,14 @@ class WeatherMainViewController: UIViewController {
     
     let weatherView:WeatherView = .init()
     let weatherFooterView:WeatherFooterView = .init()
-    let weather:[CurrentWeatherData] = []
+    var weatherArray = WeatherArray()
     var temp:TemperatureUnit = .c{
         didSet{
             weatherView.tableView.reloadData()
         }
     }
+    
+    weak var weatherDataDelegate:PassWeatherToMainPageDelegate?
     
     //MARK:-LifeCycle
     override func loadView() {
@@ -95,6 +97,10 @@ class WeatherMainViewController: UIViewController {
         weatherFooterView.latLonSearchMark.addTarget(self, action: #selector(WeatherMainViewController.toSearchLatLonPage), for: .touchUpInside)
     }
     
+    func setWeatherDelegate(){
+        weatherDataDelegate = self
+    }
+    
 }
 
 //MARK:-extensionForTableView
@@ -102,17 +108,43 @@ class WeatherMainViewController: UIViewController {
 extension WeatherMainViewController:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //return the Cell number For WeatherPage
-        return weather.count
+        return weatherArray.todayWeatherData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //return the Cell content For WeatherPage
         let cell = tableView.dequeueReusableCell(withIdentifier: WeatherViewTableViewCell.reuseIdentifier, for: indexPath) as! WeatherViewTableViewCell
         
-        let weather = weather[indexPath.row]
+        let weather = weatherArray.todayWeatherData[indexPath.row]
         cell.configuration(currentWeather: weather)
+        
         return cell
     }
+    
+    ///tableEditing
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        //1.can touch the cell
+        
+        
+        //2.touch the cell will present the weatherDetailPage
+        
+        
+        //3.pass the value to weatherDetailPage
+    }
+    
+    ///
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        //set the tableView row height
+        
+        return 200
+    }
+    
     
     ///Footer
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -125,3 +157,12 @@ extension WeatherMainViewController:UITableViewDelegate,UITableViewDataSource{
     
 }
 
+
+//MARK:-setReceiveData
+extension WeatherMainViewController:PassWeatherToMainPageDelegate{
+    func weatherToMainPage(data: CurrentWeatherData) {
+        //get the Pass data
+        weatherArray.todayWeatherData.append(data)
+    }
+    
+}

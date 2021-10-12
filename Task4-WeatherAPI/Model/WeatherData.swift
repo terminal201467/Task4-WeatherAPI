@@ -92,17 +92,28 @@ enum TemperatureUnit{
 //MARK:-WeatherMainViewController's DataStruct
 struct WeatherArray {
     var todayWeatherData:[CurrentWeatherData] = []
-    var cityString:String
-    var temperature:String
 }
 
 //MARK:-WeatherDetailViewController's DataStruct
 struct WeatherDetail {
-    var weatherData:CurrentWeatherData? = nil
-    ///this place will be set the weather content ,bcause need to set up the Array in it
+    var weatherData:CurrentWeatherData?
+    ///this place will be set the weather content ,because need to set up the Array in it
     var city:String = ""
     var lonString:String = ""
     var latString:String = ""
     
-    var weatherDetailDataArray:[String] = []
+    func getWeather(){
+        let weatherAPI = WeatherAPI()
+        
+        if self.city != ""{
+            
+            weatherAPI.getWeatherByCity(city: city)
+            
+        }else{
+            
+            weatherAPI.getWeatherByLatLon(lat: latString, lon: lonString)
+            
+        }
+        
+    }
 }

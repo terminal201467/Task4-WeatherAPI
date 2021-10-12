@@ -11,7 +11,6 @@ class WeatherDetailView: UIView {
     ///PlaceLabel
     let cityLabel:UILabel = {
         var label = UILabel()
-        label.text = "台南市"//"\()"
         label.textColor = .white
         label.numberOfLines = 1
         label.font = label.font.withSize(30)
@@ -22,7 +21,6 @@ class WeatherDetailView: UIView {
     ///weatherCondition
     let weatherConditionLabel:UILabel = {
         var label = UILabel()
-        label.text = "雷雨"//"\()"
         label.textColor = .white
         label.numberOfLines = 1
         label.font = label.font.withSize(25)
@@ -33,7 +31,6 @@ class WeatherDetailView: UIView {
     ///temperature
     let temperatureLabel:UILabel = {
         var label = UILabel()
-        label.text = "24"//"\()"
         label.textColor = .white
         label.numberOfLines = 1
         label.font = label.font.withSize(20)
@@ -44,7 +41,6 @@ class WeatherDetailView: UIView {
     ///left:maxTemp
     let maxLabel:UILabel = {
         var label = UILabel()
-        label.text = "最高：30"//"最高：\()"
         label.textColor = .white
         label.numberOfLines = 1
         label.font = label.font.withSize(15)
@@ -55,7 +51,6 @@ class WeatherDetailView: UIView {
     ///right:minTemp
     let minLabel:UILabel = {
         var label = UILabel()
-        label.text = "最低：23"//"最低：\()"
         label.textColor = .white
         label.numberOfLines = 1
         label.font = label.font.withSize(15)
@@ -92,8 +87,6 @@ class WeatherDetailView: UIView {
         super.init(frame: frame)
         ///View is Initialized
         backgroundColor = .black
-        
-        ///but these instance didn't
         addSubview(cityLabel)
         addSubview(weatherConditionLabel)
         addSubview(temperatureLabel)
@@ -114,7 +107,7 @@ class WeatherDetailView: UIView {
     //MARK:-AutoLayout
     func autoLayout(){
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: topAnchor),
+            stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             stackView.rightAnchor.constraint(equalTo: rightAnchor),
             stackView.leftAnchor.constraint(equalTo: leftAnchor),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor)

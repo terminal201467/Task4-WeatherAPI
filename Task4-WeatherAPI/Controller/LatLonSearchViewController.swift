@@ -38,8 +38,10 @@ class LatLonSearchViewController: UIViewController {
         let weatherDetailViewController = WeatherDetailViewController()
         weatherDetailViewController.modalTransitionStyle = .coverVertical
         weatherDetailViewController.modalPresentationStyle = .formSheet
-        present(weatherDetailViewController, animated: true, completion: nil)
         
+        let navigationWeatherViewController = UINavigationController(rootViewController: weatherDetailViewController)
+        present(navigationWeatherViewController, animated: true, completion: nil)
+    
         weatherDetailViewController.LatLonDataDelegate(lat: weatherDetail.latString, lon: weatherDetail.lonString)
     }
     //MARK:-setNavigationBar

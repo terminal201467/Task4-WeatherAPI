@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol PassWeatherToMainPageDelegate:AnyObject{
+    func weatherToMainPage(data:CurrentWeatherData)
+}
+
 class WeatherDetailViewController: UIViewController {
     
     ///GetWeather
@@ -17,6 +21,8 @@ class WeatherDetailViewController: UIViewController {
     
     ///DataStruct
     var weatherDetail:WeatherDetail = .init()
+    
+
     
     ///Delegate
     weak var cityDataPassDelegate: CityDataDelegate?
@@ -32,20 +38,31 @@ class WeatherDetailViewController: UIViewController {
         super.viewDidLoad()
         setNavigationBar()
         setDataPassDelegate()
-        
+        weatherText()
+        weatherDetail.getWeather()
     }
+    
     
     //MARK:-MethodForNavigationBar
     @objc func addWeather(){
-        ///dismiss
-        dismiss(animated: true, completion: nil)
-        ///passValue
+        //dismiss
+        view.window?.rootViewController?.dismiss(animated: true, completion: nil)
         
-        ///backToTheWeatherMainPage
+        //passValue
+        let weatherMainViewController = WeatherMainViewController()
+//        weatherMainViewController.weatherToMainPage(data: <#T##CurrentWeatherData#>)
+        
+        //backToTheWeatherMainPage
+        weatherMainViewController.modalTransitionStyle = .coverVertical
+        weatherMainViewController.modalPresentationStyle = .formSheet
+        present(weatherMainViewController, animated: true, completion: nil)
     }
     
     @objc func backToSearchPage(){
+        //dismiss every page
+        
         dismiss(animated: true, completion: nil)
+        
     }
     
     //MARK:-setNavigationBar
@@ -64,41 +81,39 @@ class WeatherDetailViewController: UIViewController {
         
         navigationItem.rightBarButtonItem = addButton
         navigationItem.leftBarButtonItem = cancelButton
+        
     }
     
-    //MARK:-DataDealing
-    
+    //MARK:-DataDelegate
     func setDataPassDelegate(){
         cityDataPassDelegate = self
         latlonDataPassDelegate = self
+    }
+    
+    //MARK:-setWeatherText
+    /*Most Important part here**/
+    func weatherText(){
+        weatherDetailView.cityLabel.text =  "台中"
+        weatherDetailView.weatherConditionLabel.text = "雷雨"
+        weatherDetailView.maxLabel.text = "35"
+        weatherDetailView.minLabel.text = "23"
+        weatherDetailView.temperatureLabel.text = "27"
     }
 
 }
 
 //MARK:-setDataPass
 extension WeatherDetailViewController:CityDataDelegate,LatLonDataDelegate{
-    ///accept the city Data
+
     func cityDataDelegate(text: String) {
-        ///request the weather data by city
+
         weatherDetail.city = text
-        print("cityName:\(weatherDetail.city)")
-        
-//        print("確認城市搜尋頁面的傳值:\(weatherAPI.weatherDetail.city)")
-        
-        ///the get weather data should receive by a DataStruct
-        
     }
-    
-    ///accept the lat lon Data
+ 
     func LatLonDataDelegate(lat: String, lon: String) {
-        ///request the weather data by lat lon
-        
+    
         weatherDetail.latString = lat
         weatherDetail.lonString = lon
-        
-        print(weatherDetail.latString)
-        print(weatherDetail.lonString)
-        
         
     }
 }

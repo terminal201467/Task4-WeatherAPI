@@ -151,8 +151,8 @@ extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
         //3.ShowUPtheWeatherDetailPage
         weatherDetailViewController.modalTransitionStyle = .coverVertical
         weatherDetailViewController.modalPresentationStyle = .formSheet
-        
-        present(weatherDetailViewController, animated: true, completion: nil)
+        let navigationWeatherViewController = UINavigationController(rootViewController: weatherDetailViewController)
+        present(navigationWeatherViewController, animated: true, completion: nil)
         
     }
 }
