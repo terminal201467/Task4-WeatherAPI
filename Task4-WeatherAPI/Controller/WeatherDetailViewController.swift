@@ -18,19 +18,21 @@ class WeatherDetailViewController: UIViewController {
     ///DataStruct
     var weatherDetail:WeatherDetail = .init()
     
+    ///Delegate
+    weak var cityDataPassDelegate: CityDataDelegate?
+    weak var latlonDataPassDelegate: LatLonDataDelegate?
+    
     //MARK:-LifeCycle
     override func loadView() {
         super.loadView()
         view = weatherDetailView
     }
     
-    fileprivate func extractedFunc() {
-        setNavigationController()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        extractedFunc()
+        setNavigationBar()
+        setDataPassDelegate()
+        
     }
     
     //MARK:-MethodForNavigationBar
@@ -47,10 +49,9 @@ class WeatherDetailViewController: UIViewController {
     }
     
     //MARK:-setNavigationBar
-    private func setNavigationController(){
-        ///why the navigationBar didn't show up?
-        title = "當日天氣"
+    func setNavigationBar(){
         navigationController?.navigationBar.tintColor = .white
+        
         let addButton = UIBarButtonItem(title: "加入",
                                         style: .plain,
                                         target: self,
@@ -64,6 +65,14 @@ class WeatherDetailViewController: UIViewController {
         navigationItem.rightBarButtonItem = addButton
         navigationItem.leftBarButtonItem = cancelButton
     }
+    
+    //MARK:-DataDealing
+    
+    func setDataPassDelegate(){
+        cityDataPassDelegate = self
+        latlonDataPassDelegate = self
+    }
+
 }
 
 //MARK:-setDataPass
@@ -71,7 +80,8 @@ extension WeatherDetailViewController:CityDataDelegate,LatLonDataDelegate{
     ///accept the city Data
     func cityDataDelegate(text: String) {
         ///request the weather data by city
-        print(text)
+        weatherDetail.city = text
+        print("cityName:\(weatherDetail.city)")
         
 //        print("確認城市搜尋頁面的傳值:\(weatherAPI.weatherDetail.city)")
         
@@ -83,8 +93,11 @@ extension WeatherDetailViewController:CityDataDelegate,LatLonDataDelegate{
     func LatLonDataDelegate(lat: String, lon: String) {
         ///request the weather data by lat lon
         
-        print(lat)
-        print(lon)
+        weatherDetail.latString = lat
+        weatherDetail.lonString = lon
+        
+        print(weatherDetail.latString)
+        print(weatherDetail.lonString)
         
         
     }

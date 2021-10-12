@@ -7,19 +7,22 @@
 
 import UIKit
 
-protocol CityDataDelegate {
+protocol CityDataDelegate:AnyObject {
     func cityDataDelegate(text:String)
 }
 
 //RememberWriteControllerOnly
 class SearchViewController: UIViewController{
 
+
     //MARK:-setView
     let searchView:SearchView = .init()
     let weatherDetailViewController = WeatherDetailViewController()
     var cityAPI:CityAPI = .init()
     var searchController:UISearchController!
-    var cityDataPass:CityDataDelegate?
+    
+    ///Delegate
+    weak var cityDataPassDelegate: CityDataDelegate?
     
     //MARK:-LifeCycle
     override func loadView() {
@@ -135,13 +138,14 @@ extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
             
             let searchCityData = cityAPI.searchArray.resultData[indexPath.row]
             //2.PassTheDataToDetailPage
-            cityDataPass?.cityDataDelegate(text: searchCityData)
+            weatherDetailViewController.cityDataDelegate(text: searchCityData)
             
         }else{
             
             let cityNameData = cityAPI.searchArray.cityNameArray[indexPath.row]
             //2.PassTheDataToDetailPage
-            cityDataPass?.cityDataDelegate(text: cityNameData)
+            weatherDetailViewController.cityDataDelegate(text: cityNameData)
+            
         }
         
         //3.ShowUPtheWeatherDetailPage

@@ -86,6 +86,7 @@ class LatLonSearchView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         addSubview(lonLabel)
         addSubview(latLabel)
         addSubview(lonTextField)

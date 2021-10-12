@@ -14,7 +14,8 @@ class WeatherDetailView: UIView {
         label.text = "台南市"//"\()"
         label.textColor = .white
         label.numberOfLines = 1
-        label.font = label.font.withSize(25)
+        label.font = label.font.withSize(30)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -24,7 +25,8 @@ class WeatherDetailView: UIView {
         label.text = "雷雨"//"\()"
         label.textColor = .white
         label.numberOfLines = 1
-        label.font = label.font.withSize(20)
+        label.font = label.font.withSize(25)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -35,6 +37,7 @@ class WeatherDetailView: UIView {
         label.textColor = .white
         label.numberOfLines = 1
         label.font = label.font.withSize(20)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -45,6 +48,7 @@ class WeatherDetailView: UIView {
         label.textColor = .white
         label.numberOfLines = 1
         label.font = label.font.withSize(15)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -55,6 +59,7 @@ class WeatherDetailView: UIView {
         label.textColor = .white
         label.numberOfLines = 1
         label.font = label.font.withSize(15)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -63,9 +68,10 @@ class WeatherDetailView: UIView {
     lazy var maxMinTemperatureStackView:UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [maxLabel,minLabel])
         stackView.axis = .horizontal
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fillEqually
         stackView.alignment = .center
         stackView.spacing = 5
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
@@ -77,15 +83,17 @@ class WeatherDetailView: UIView {
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.spacing = 5
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
     //MARK:-InitializeTheView
     override init(frame: CGRect){
         super.init(frame: frame)
-        
+        ///View is Initialized
         backgroundColor = .black
         
+        ///but these instance didn't
         addSubview(cityLabel)
         addSubview(weatherConditionLabel)
         addSubview(temperatureLabel)

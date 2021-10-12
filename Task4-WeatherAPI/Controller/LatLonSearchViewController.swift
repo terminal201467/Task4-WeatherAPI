@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol LatLonDataDelegate {
+protocol LatLonDataDelegate:AnyObject {
     func LatLonDataDelegate(lat:String,lon:String)
 }
 
@@ -16,7 +16,7 @@ class LatLonSearchViewController: UIViewController {
     let latlonView:LatLonSearchView = .init()
     var weatherDetail:WeatherDetail = .init()
     
-    var latlonData:LatLonDataDelegate?
+    weak var latlonDataPassDelegate: LatLonDataDelegate?
     
     //MARK:-LifeCycle
     override func loadView() {
@@ -39,8 +39,8 @@ class LatLonSearchViewController: UIViewController {
         weatherDetailViewController.modalTransitionStyle = .coverVertical
         weatherDetailViewController.modalPresentationStyle = .formSheet
         present(weatherDetailViewController, animated: true, completion: nil)
-        latlonData?.LatLonDataDelegate(lat: weatherDetail.latString,
-                                      lon: weatherDetail.lonString)
+        
+        weatherDetailViewController.LatLonDataDelegate(lat: weatherDetail.latString, lon: weatherDetail.lonString)
     }
     //MARK:-setNavigationBar
     private func setNavigationBar(){
@@ -71,14 +71,9 @@ extension LatLonSearchViewController: UITextFieldDelegate{
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        
         //1.Take value from textField
         weatherDetail.latString = latlonView.latTextField.text!
         weatherDetail.lonString = latlonView.lonTextField.text!
-        
-        //2.Pass the value to WeatherDetailViewController
-        latlonData?.LatLonDataDelegate(lat: weatherDetail.latString,
-                                       lon: weatherDetail.lonString)
 
     }
     
