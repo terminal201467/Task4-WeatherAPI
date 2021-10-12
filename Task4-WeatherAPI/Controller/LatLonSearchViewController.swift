@@ -14,10 +14,9 @@ protocol LatLonDataDelegate {
 class LatLonSearchViewController: UIViewController {
     
     let latlonView:LatLonSearchView = .init()
-    var latlonData:LatLonDataDelegate?
-    
     var weatherDetail:WeatherDetail = .init()
-//    let weatherDetailViewController = WeatherDetailViewController()
+    
+    var latlonData:LatLonDataDelegate?
     
     //MARK:-LifeCycle
     override func loadView() {
@@ -44,7 +43,7 @@ class LatLonSearchViewController: UIViewController {
                                       lon: weatherDetail.lonString)
     }
     //MARK:-setNavigationBar
-    func setNavigationBar(){
+    private func setNavigationBar(){
         title = "輸入經緯度"
         navigationController?.navigationBar.tintColor = .white
         
@@ -61,8 +60,6 @@ class LatLonSearchViewController: UIViewController {
         latlonView.latTextField.delegate = self
         latlonView.lonTextField.delegate = self
     }
-
-
 }
 
 extension LatLonSearchViewController: UITextFieldDelegate{

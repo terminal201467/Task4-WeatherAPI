@@ -8,25 +8,94 @@
 import UIKit
 
 class WeatherDetailView: UIView {
-    
-    let tableView:UITableView = {
-        let tableView = UITableView()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "WeatherDetail")
-        tableView.register(WeatherDetailHeaderView.self,forHeaderFooterViewReuseIdentifier:"Header")
-        tableView.separatorStyle = .singleLine
-        return tableView
+    ///PlaceLabel
+    let cityLabel:UILabel = {
+        var label = UILabel()
+        label.text = "台南市"//"\()"
+        label.textColor = .white
+        label.numberOfLines = 1
+        label.font = label.font.withSize(25)
+        return label
     }()
     
-    lazy var stackView:UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [tableView])
-        
+    ///weatherCondition
+    let weatherConditionLabel:UILabel = {
+        var label = UILabel()
+        label.text = "雷雨"//"\()"
+        label.textColor = .white
+        label.numberOfLines = 1
+        label.font = label.font.withSize(20)
+        return label
+    }()
+    
+    ///temperature
+    let temperatureLabel:UILabel = {
+        var label = UILabel()
+        label.text = "24"//"\()"
+        label.textColor = .white
+        label.numberOfLines = 1
+        label.font = label.font.withSize(20)
+        return label
+    }()
+    
+    ///left:maxTemp
+    let maxLabel:UILabel = {
+        var label = UILabel()
+        label.text = "最高：30"//"最高：\()"
+        label.textColor = .white
+        label.numberOfLines = 1
+        label.font = label.font.withSize(15)
+        return label
+    }()
+    
+    ///right:minTemp
+    let minLabel:UILabel = {
+        var label = UILabel()
+        label.text = "最低：23"//"最低：\()"
+        label.textColor = .white
+        label.numberOfLines = 1
+        label.font = label.font.withSize(15)
+        return label
+    }()
+    
+    
+    //MARK:-StackView
+    lazy var maxMinTemperatureStackView:UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [maxLabel,minLabel])
+        stackView.axis = .horizontal
+        stackView.distribution = .fillProportionally
+        stackView.alignment = .center
+        stackView.spacing = 5
         return stackView
     }()
     
-    override init(frame: CGRect) {
+    lazy var stackView:UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [cityLabel,
+                                                       weatherConditionLabel,
+                                                       temperatureLabel,
+                                                       maxMinTemperatureStackView])
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.spacing = 5
+        return stackView
+    }()
+    
+    //MARK:-InitializeTheView
+    override init(frame: CGRect){
         super.init(frame: frame)
-        addSubview(tableView)
+        
+        backgroundColor = .black
+        
+        addSubview(cityLabel)
+        addSubview(weatherConditionLabel)
+        addSubview(temperatureLabel)
+        
+        addSubview(maxLabel)
+        addSubview(minLabel)
+        
+        addSubview(maxMinTemperatureStackView)
         addSubview(stackView)
+        
         autoLayout()
     }
     
@@ -34,6 +103,7 @@ class WeatherDetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK:-AutoLayout
     func autoLayout(){
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor),

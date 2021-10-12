@@ -9,9 +9,13 @@ import UIKit
 
 class WeatherDetailViewController: UIViewController {
     
+    ///GetWeather
     let weatherAPI = WeatherAPI()
-    let weatherDetailView = WeatherDetailView()
-    let weatherHeaderView:WeatherDetailHeaderView = .init()
+    
+    ///View
+    let weatherDetailView:WeatherDetailView = .init()
+    
+    ///DataStruct
     var weatherDetail:WeatherDetail = .init()
     
     //MARK:-LifeCycle
@@ -20,49 +24,47 @@ class WeatherDetailViewController: UIViewController {
         view = weatherDetailView
     }
     
+    fileprivate func extractedFunc() {
+        setNavigationController()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setTableViewDelegate()
-//        getWeatherData()
-
+        extractedFunc()
     }
     
-    //MARK:-setMethodGetWeatherData
-    func setTableViewDelegate(){
-        weatherDetailView.tableView.delegate = self
-        weatherDetailView.tableView.dataSource = self
+    //MARK:-MethodForNavigationBar
+    @objc func addWeather(){
+        ///dismiss
+        dismiss(animated: true, completion: nil)
+        ///passValue
+        
+        ///backToTheWeatherMainPage
+    }
+    
+    @objc func backToSearchPage(){
+        dismiss(animated: true, completion: nil)
+    }
+    
+    //MARK:-setNavigationBar
+    private func setNavigationController(){
+        ///why the navigationBar didn't show up?
+        title = "當日天氣"
+        navigationController?.navigationBar.tintColor = .white
+        let addButton = UIBarButtonItem(title: "加入",
+                                        style: .plain,
+                                        target: self,
+                                        action: #selector(WeatherDetailViewController.addWeather))
+        
+        let cancelButton = UIBarButtonItem(title: "取消",
+                                           style: .plain,
+                                           target: self,
+                                           action: #selector(WeatherDetailViewController.backToSearchPage))
+        
+        navigationItem.rightBarButtonItem = addButton
+        navigationItem.leftBarButtonItem = cancelButton
     }
 }
-
-extension WeatherDetailViewController:UITableViewDelegate,UITableViewDataSource{
-    
-    ///Table
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return weatherAPI.weatherDetail.weatherDetailDataArray.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //1.register
-        let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherDetail", for: indexPath)
-        
-        //2.cell content
-        cell.textLabel?.text = weatherAPI.weatherDetail.weatherDetailDataArray[indexPath.row]
-        
-        //3.return cell
-        return cell
-    }
-    
-    ///Header
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 500
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "Header") as? WeatherDetailHeaderView
-        return header
-    }
-}
-
 
 //MARK:-setDataPass
 extension WeatherDetailViewController:CityDataDelegate,LatLonDataDelegate{

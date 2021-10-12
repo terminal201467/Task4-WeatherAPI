@@ -19,7 +19,6 @@ class SearchViewController: UIViewController{
     let weatherDetailViewController = WeatherDetailViewController()
     var cityAPI:CityAPI = .init()
     var searchController:UISearchController!
-    
     var cityDataPass:CityDataDelegate?
     
     //MARK:-LifeCycle
