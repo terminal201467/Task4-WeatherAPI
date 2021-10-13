@@ -8,12 +8,13 @@
 import UIKit
 
 class WeatherDetailView: UIView {
+    
     ///PlaceLabel
     let cityLabel:UILabel = {
         var label = UILabel()
         label.textColor = .white
         label.numberOfLines = 1
-        label.font = label.font.withSize(30)
+        label.font = label.font.withSize(40)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -33,7 +34,7 @@ class WeatherDetailView: UIView {
         var label = UILabel()
         label.textColor = .white
         label.numberOfLines = 1
-        label.font = label.font.withSize(20)
+        label.font = label.font.withSize(30)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -43,7 +44,7 @@ class WeatherDetailView: UIView {
         var label = UILabel()
         label.textColor = .white
         label.numberOfLines = 1
-        label.font = label.font.withSize(15)
+        label.font = label.font.withSize(17)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -53,7 +54,7 @@ class WeatherDetailView: UIView {
         var label = UILabel()
         label.textColor = .white
         label.numberOfLines = 1
-        label.font = label.font.withSize(15)
+        label.font = label.font.withSize(17)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -65,7 +66,7 @@ class WeatherDetailView: UIView {
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.alignment = .center
-        stackView.spacing = 5
+        stackView.spacing = 10
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -77,7 +78,8 @@ class WeatherDetailView: UIView {
                                                        maxMinTemperatureStackView])
         stackView.axis = .vertical
         stackView.alignment = .center
-        stackView.spacing = 5
+        stackView.distribution = .fillProportionally
+        stackView.spacing = 7
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -107,10 +109,10 @@ class WeatherDetailView: UIView {
     //MARK:-AutoLayout
     func autoLayout(){
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor,constant: 30),
             stackView.rightAnchor.constraint(equalTo: rightAnchor),
             stackView.leftAnchor.constraint(equalTo: leftAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            stackView.bottomAnchor.constraint(lessThanOrEqualTo: safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 

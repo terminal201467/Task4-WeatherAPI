@@ -95,23 +95,29 @@ struct WeatherArray {
 }
 
 //MARK:-WeatherDetailViewController's DataStruct
-struct WeatherDetail {
-    var weatherData:CurrentWeatherData?
+struct WeatherDetailData {
+    var currentWeatherData:CurrentWeatherData?
     ///this place will be set the weather content ,because need to set up the Array in it
-    var city:String = ""
+    var cityString:String = ""
     var lonString:String = ""
     var latString:String = ""
     
     func getWeather(){
+        
         let weatherAPI = WeatherAPI()
         
-        if self.city != ""{
+        if self.cityString != ""{
             
-            weatherAPI.getWeatherByCity(city: city)
-            
+            weatherAPI.getWeatherByCity(city: cityString)
+            print("傳入城市名稱：\(cityString)")
+            print("Get溫度：\(weatherAPI.weatherDetail.currentWeatherData?.main.temp)")
+
         }else{
             
             weatherAPI.getWeatherByLatLon(lat: latString, lon: lonString)
+            print("傳入緯度：\(latString)")
+            print("傳入經度：\(lonString)")
+            print("Get溫度:\(weatherAPI.weatherDetail.currentWeatherData?.main.temp)")
             
         }
         

@@ -14,7 +14,7 @@ protocol LatLonDataDelegate:AnyObject {
 class LatLonSearchViewController: UIViewController {
     
     let latlonView:LatLonSearchView = .init()
-    var weatherDetail:WeatherDetail = .init()
+    var weatherDetail:WeatherDetailData = .init()
     
     weak var latlonDataPassDelegate: LatLonDataDelegate?
     

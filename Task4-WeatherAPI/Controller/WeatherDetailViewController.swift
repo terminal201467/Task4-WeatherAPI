@@ -20,9 +20,7 @@ class WeatherDetailViewController: UIViewController {
     let weatherDetailView:WeatherDetailView = .init()
     
     ///DataStruct
-    var weatherDetail:WeatherDetail = .init()
-    
-
+    var weatherDetailData:WeatherDetailData = .init()
     
     ///Delegate
     weak var cityDataPassDelegate: CityDataDelegate?
@@ -39,7 +37,12 @@ class WeatherDetailViewController: UIViewController {
         setNavigationBar()
         setDataPassDelegate()
         weatherText()
-        weatherDetail.getWeather()
+        
+        weatherDetailData.getWeather()
+        ///why the weatherDetailData get nil
+        ///unwraped?
+        ///
+        
     }
     
     
@@ -50,8 +53,6 @@ class WeatherDetailViewController: UIViewController {
         
         //passValue
         let weatherMainViewController = WeatherMainViewController()
-//        weatherMainViewController.weatherToMainPage(data: <#T##CurrentWeatherData#>)
-        
         //backToTheWeatherMainPage
         weatherMainViewController.modalTransitionStyle = .coverVertical
         weatherMainViewController.modalPresentationStyle = .formSheet
@@ -60,9 +61,7 @@ class WeatherDetailViewController: UIViewController {
     
     @objc func backToSearchPage(){
         //dismiss every page
-        
         dismiss(animated: true, completion: nil)
-        
     }
     
     //MARK:-setNavigationBar
@@ -81,7 +80,6 @@ class WeatherDetailViewController: UIViewController {
         
         navigationItem.rightBarButtonItem = addButton
         navigationItem.leftBarButtonItem = cancelButton
-        
     }
     
     //MARK:-DataDelegate
@@ -93,27 +91,26 @@ class WeatherDetailViewController: UIViewController {
     //MARK:-setWeatherText
     /*Most Important part here**/
     func weatherText(){
-        weatherDetailView.cityLabel.text =  "台中"
+        weatherDetailView.cityLabel.text = "台中"
         weatherDetailView.weatherConditionLabel.text = "雷雨"
-        weatherDetailView.maxLabel.text = "35"
-        weatherDetailView.minLabel.text = "23"
-        weatherDetailView.temperatureLabel.text = "27"
+        weatherDetailView.maxLabel.text = "最高：35°"
+        weatherDetailView.minLabel.text = "最低：23°"
+        weatherDetailView.temperatureLabel.text = "27°"
     }
 
 }
 
 //MARK:-setDataPass
 extension WeatherDetailViewController:CityDataDelegate,LatLonDataDelegate{
-
     func cityDataDelegate(text: String) {
 
-        weatherDetail.city = text
+        weatherDetailData.cityString = text
     }
  
     func LatLonDataDelegate(lat: String, lon: String) {
     
-        weatherDetail.latString = lat
-        weatherDetail.lonString = lon
+        weatherDetailData.latString = lat
+        weatherDetailData.lonString = lon
         
     }
 }
