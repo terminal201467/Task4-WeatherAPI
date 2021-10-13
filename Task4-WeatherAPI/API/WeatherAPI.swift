@@ -31,10 +31,10 @@ class WeatherAPI{
     var baseURL = URL(string:"https://api.openweathermap.org/")
     
     let api = API()
-    
+    var usableData: CurrentWeatherData?
     //setFunctionForCity
     
-    func getWeatherByCity(city:String){
+    func getWeatherByCity(city:String, completion: @escaping (CurrentWeatherData) -> Void){
             let queries = [
                 "q":city,
                 "appid":api.key
@@ -60,7 +60,10 @@ class WeatherAPI{
                     
                     do{
                         
-                        self.weatherDetail.currentWeatherData = try decoder.decode(CurrentWeatherData.self, from: data)
+                        let data = try decoder.decode(CurrentWeatherData.self, from: data)
+//                        self.usableData = data
+                        completion(data)
+                        self.weatherDetail.currentWeatherData = data
                         
                     }catch{
                         
@@ -73,8 +76,7 @@ class WeatherAPI{
     }
     
     //setFunctionForlatlon
-    
-    func getWeatherByLatLon(lat:String,lon:String){
+    func getWeatherByLatLon(lat:String,lon:String,completion: @escaping (CurrentWeatherData) -> Void){
             let queries = [
                 "lat":lat,
                 "lon":lon,
@@ -85,7 +87,7 @@ class WeatherAPI{
             //api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
             print(url)
             
-                URLSession.shared.dataTask(with: url){(data,response,error) in
+                URLSession.shared.dataTask(with: url){[self](data,response,error) in
                     if let error = error{
                         print("Error:\(error.localizedDescription)")
                     }
@@ -97,10 +99,14 @@ class WeatherAPI{
                     if let data = data{
                         let decoder = JSONDecoder()
                         do{
-                            self.weatherDetail.currentWeatherData = try decoder.decode(CurrentWeatherData.self, from: data)
-                            
+                            let data = try decoder.decode(CurrentWeatherData.self, from: data)
+                            completion(data)
+                            self.weatherDetail.currentWeatherData = data
+  
                         }catch{
+                            
                             print("Not Decode")
+                            
                         }
                 }
             }.resume()

@@ -42,7 +42,7 @@ class WeatherViewTableViewCell: UITableViewCell {
     
     func configuration(currentWeather:CurrentWeatherData){
         textLabel?.text = currentWeather.name
-        detailTextLabel?.text = currentWeather.main.tempString
+        detailTextLabel?.text = "\(currentWeather.main.temp)"
     }
 }
 

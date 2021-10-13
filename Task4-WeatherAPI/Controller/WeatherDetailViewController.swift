@@ -36,15 +36,9 @@ class WeatherDetailViewController: UIViewController {
         super.viewDidLoad()
         setNavigationBar()
         setDataPassDelegate()
-        weatherText()
+        weatherTextLabel()
         
-        weatherDetailData.getWeather()
-        ///why the weatherDetailData get nil
-        ///unwraped?
-        ///
-        
-    }
-    
+        }
     
     //MARK:-MethodForNavigationBar
     @objc func addWeather(){
@@ -62,6 +56,15 @@ class WeatherDetailViewController: UIViewController {
     @objc func backToSearchPage(){
         //dismiss every page
         dismiss(animated: true, completion: nil)
+        
+        DispatchQueue.main.async {
+            self.weatherDetailView.cityLabel.text = ""
+            self.weatherDetailView.weatherConditionLabel.text = ""
+            self.weatherDetailView.temperatureLabel.text = ""
+            self.weatherDetailView.maxLabel.text = ""
+            self.weatherDetailView.minLabel.text = ""
+        }
+
     }
     
     //MARK:-setNavigationBar
@@ -89,15 +92,29 @@ class WeatherDetailViewController: UIViewController {
     }
     
     //MARK:-setWeatherText
-    /*Most Important part here**/
-    func weatherText(){
-        weatherDetailView.cityLabel.text = "台中"
-        weatherDetailView.weatherConditionLabel.text = "雷雨"
-        weatherDetailView.maxLabel.text = "最高：35°"
-        weatherDetailView.minLabel.text = "最低：23°"
-        weatherDetailView.temperatureLabel.text = "27°"
+    func weatherTextLabel(){
+        if weatherDetailData.cityString != ""{
+            weatherAPI.getWeatherByCity(city: weatherDetailData.cityString) { usableData in
+                DispatchQueue.main.async {
+                self.weatherDetailView.cityLabel.text = usableData.name
+                self.weatherDetailView.weatherConditionLabel.text = usableData.weather[0].description
+                self.weatherDetailView.temperatureLabel.text = "\(usableData.main.temp)°"
+                self.weatherDetailView.maxLabel.text = "最高\(usableData.main.temp_max)°"
+                self.weatherDetailView.minLabel.text = "最低\(usableData.main.temp_min)°"
+                }
+            }
+        }else{
+            weatherAPI.getWeatherByLatLon(lat: weatherDetailData.latString, lon: weatherDetailData.lonString){ usableData in
+                DispatchQueue.main.async {
+                self.weatherDetailView.cityLabel.text = usableData.name
+                self.weatherDetailView.weatherConditionLabel.text = usableData.weather[0].description
+                self.weatherDetailView.temperatureLabel.text = "\(usableData.main.temp)°"
+                self.weatherDetailView.maxLabel.text = "最高\(usableData.main.temp_max)°"
+                self.weatherDetailView.minLabel.text = "最低\(usableData.main.temp_min)°"
+                }
+            }
+        }
     }
-
 }
 
 //MARK:-setDataPass
@@ -114,4 +131,5 @@ extension WeatherDetailViewController:CityDataDelegate,LatLonDataDelegate{
         
     }
 }
+
 

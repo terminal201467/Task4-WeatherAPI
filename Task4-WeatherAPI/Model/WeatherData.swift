@@ -28,24 +28,24 @@ struct MainMessage:Codable {
     var pressure:Double
     var humidity:Int
     
-    var tempString:String{
-        return "\(temp)°"
-    }
-    
-    var tempInFahrenheit:Double{
-        let f = 9/5 * temp + 32
-        return f
-    }
-    
-    var tempMinFahrenheit:Double{
-        let f = 9/5 * temp_min + 32
-        return f
-    }
-    
-    var tempMaxFahrenheit:Double{
-        let f = 9/5 * temp_max + 32
-        return f
-    }
+//    var tempString:String{
+//        return "\(temp)°"
+//    }
+//    
+//    var tempInFahrenheit:Double{
+//        let f = 9/5 * temp + 32
+//        return f
+//    }
+//    
+//    var tempMinFahrenheit:Double{
+//        let f = 9/5 * temp_min + 32
+//        return f
+//    }
+//    
+//    var tempMaxFahrenheit:Double{
+//        let f = 9/5 * temp_max + 32
+//        return f
+//    }
 }
 
 struct Wind:Codable {
@@ -97,29 +97,7 @@ struct WeatherArray {
 //MARK:-WeatherDetailViewController's DataStruct
 struct WeatherDetailData {
     var currentWeatherData:CurrentWeatherData?
-    ///this place will be set the weather content ,because need to set up the Array in it
     var cityString:String = ""
     var lonString:String = ""
     var latString:String = ""
-    
-    func getWeather(){
-        
-        let weatherAPI = WeatherAPI()
-        
-        if self.cityString != ""{
-            
-            weatherAPI.getWeatherByCity(city: cityString)
-            print("傳入城市名稱：\(cityString)")
-            print("Get溫度：\(weatherAPI.weatherDetail.currentWeatherData?.main.temp)")
-
-        }else{
-            
-            weatherAPI.getWeatherByLatLon(lat: latString, lon: lonString)
-            print("傳入緯度：\(latString)")
-            print("傳入經度：\(lonString)")
-            print("Get溫度:\(weatherAPI.weatherDetail.currentWeatherData?.main.temp)")
-            
-        }
-        
-    }
 }
