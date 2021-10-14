@@ -7,19 +7,23 @@
 
 import UIKit
 
+protocol PassWeatherToMainPageDelegate:AnyObject{
+    func weatherToMainPage(_ data:CurrentWeatherData)
+}
+
 class WeatherMainViewController: UIViewController {
-    
+
     let weatherView:WeatherView = .init()
     let weatherFooterView:WeatherFooterView = .init()
     var weatherArray = WeatherArray()
+    
+    weak var delegate:PassWeatherToMainPageDelegate?
+    
     var temp:TemperatureUnit = .c{
         didSet{
             weatherView.tableView.reloadData()
         }
     }
-    
-    weak var weatherDataDelegate:PassWeatherToMainPageDelegate?
-    
     //MARK:-LifeCycle
     override func loadView() {
         super.loadView()
@@ -32,8 +36,19 @@ class WeatherMainViewController: UIViewController {
         setTempLabelChange()
         setSearchCity()
         setSearchLatLon()
-        
+        setWeatherDetailPassToMain()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        setWeatherDetailPassToMain()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+//        setWeatherDetailPassToMain()
+    }
+    
     //MARK:-setMethodForCeisiusAndFahrenheitColorChange
     @objc func labelColorChange(){
         print("colorChange")
@@ -97,14 +112,14 @@ class WeatherMainViewController: UIViewController {
         weatherFooterView.latLonSearchMark.addTarget(self, action: #selector(WeatherMainViewController.toSearchLatLonPage), for: .touchUpInside)
     }
     
-    func setWeatherDelegate(){
-        weatherDataDelegate = self
+    //MARK:-setWeatherDetailPassToMain
+    func setWeatherDetailPassToMain(){
+        let weatherDetailViewController = WeatherDetailViewController()
+        weatherDetailViewController.weatherDetailPassToMainDelegate = self
     }
-    
 }
 
 //MARK:-extensionForTableView
-
 extension WeatherMainViewController:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //return the Cell number For WeatherPage
@@ -139,12 +154,9 @@ extension WeatherMainViewController:UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        //set the tableView row height
-        
+
         return 200
     }
-    
     
     ///Footer
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -157,12 +169,16 @@ extension WeatherMainViewController:UITableViewDelegate,UITableViewDataSource{
     
 }
 
-
 //MARK:-setReceiveData
 extension WeatherMainViewController:PassWeatherToMainPageDelegate{
-    func weatherToMainPage(data: CurrentWeatherData) {
-        //get the Pass data
+    ///delegate didn't trigger
+    func weatherToMainPage(_ data: CurrentWeatherData) {
+        //GetThePassData
+        print("打印回傳資料",data)
+
+        //addThePassDataToArray
         weatherArray.todayWeatherData.append(data)
+
     }
-    
+
 }

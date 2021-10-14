@@ -7,9 +7,6 @@
 
 import UIKit
 
-protocol CityDataDelegate:AnyObject {
-    func cityDataDelegate(text:String)
-}
 
 //RememberWriteControllerOnly
 class SearchViewController: UIViewController{
@@ -17,13 +14,10 @@ class SearchViewController: UIViewController{
 
     //MARK:-setView
     let searchView:SearchView = .init()
-    let weatherTest = WeatherDetailViewController()
     
     var cityAPI:CityAPI = .init()
-    var searchController:UISearchController!
     
-    ///Delegate
-    weak var cityDataPassDelegate: CityDataDelegate?
+    var searchController:UISearchController!
     
     //MARK:-LifeCycle
     override func loadView() {
@@ -45,9 +39,7 @@ class SearchViewController: UIViewController{
         setTableViewDelegateDataSource()
         cityAPI.ReadJson()
     }
-    
 
-    
     //MARK:-setSeachController
     func setSearchController(){
         
@@ -61,7 +53,6 @@ class SearchViewController: UIViewController{
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.isActive = true
         
-        //naviagationBarEqualToSearchController
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 15)]
         title = "輸入城市"
         navigationItem.searchController = searchController

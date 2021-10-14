@@ -42,8 +42,6 @@ class WeatherAPI{
     
         if let url = baseURL?.appendingPathComponent("data/2.5/weather").withQueries(queries){
             //api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
-            print(url)
-            
             URLSession.shared.dataTask(with: url){ [self](data,response,error) in
 
                 if let error = error{
@@ -61,7 +59,6 @@ class WeatherAPI{
                     do{
                         
                         let data = try decoder.decode(CurrentWeatherData.self, from: data)
-//                        self.usableData = data
                         completion(data)
                         self.weatherDetail.currentWeatherData = data
                         
@@ -85,9 +82,7 @@ class WeatherAPI{
             
         if let url = baseURL?.appendingPathComponent("data/2.5/weather").withQueries(queries){
             //api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
-            print(url)
-            
-                URLSession.shared.dataTask(with: url){[self](data,response,error) in
+            URLSession.shared.dataTask(with: url){[self](data,response,error) in
                     if let error = error{
                         print("Error:\(error.localizedDescription)")
                     }
