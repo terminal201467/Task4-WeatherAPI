@@ -35,19 +35,41 @@ class WeatherDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationBar()
-        setDataPassDelegate()
         weatherTextLabel()
         
         }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+        DispatchQueue.main.async {
+            self.weatherDetailView.cityLabel.text = ""
+            self.weatherDetailView.weatherConditionLabel.text = ""
+            self.weatherDetailView.temperatureLabel.text = ""
+            self.weatherDetailView.maxLabel.text = ""
+            self.weatherDetailView.minLabel.text = ""
+        }
+    }
+    
+    //MARK: - dataPass
+    func cityDataPass(city:String){
+        weatherDetailData.cityString = city
+        print("城市:\(weatherDetailData.cityString)")
+    }
+    
+    func latLonStringPass(lat:String,lon:String){
+        weatherDetailData.latString = lat
+        weatherDetailData.lonString = lon
+        
+        print("經度:\(weatherDetailData.latString)")
+        print("緯度:\(weatherDetailData.lonString)")
+    }
     
     //MARK:-MethodForNavigationBar
     @objc func addWeather(){
         //dismiss
         view.window?.rootViewController?.dismiss(animated: true, completion: nil)
-        
         //passValue
         let weatherMainViewController = WeatherMainViewController()
-        //backToTheWeatherMainPage
         weatherMainViewController.modalTransitionStyle = .coverVertical
         weatherMainViewController.modalPresentationStyle = .formSheet
         present(weatherMainViewController, animated: true, completion: nil)
@@ -56,14 +78,6 @@ class WeatherDetailViewController: UIViewController {
     @objc func backToSearchPage(){
         //dismiss every page
         dismiss(animated: true, completion: nil)
-        
-        DispatchQueue.main.async {
-            self.weatherDetailView.cityLabel.text = ""
-            self.weatherDetailView.weatherConditionLabel.text = ""
-            self.weatherDetailView.temperatureLabel.text = ""
-            self.weatherDetailView.maxLabel.text = ""
-            self.weatherDetailView.minLabel.text = ""
-        }
 
     }
     
@@ -85,14 +99,10 @@ class WeatherDetailViewController: UIViewController {
         navigationItem.leftBarButtonItem = cancelButton
     }
     
-    //MARK:-DataDelegate
-    func setDataPassDelegate(){
-        cityDataPassDelegate = self
-        latlonDataPassDelegate = self
-    }
     
     //MARK:-setWeatherText
     func weatherTextLabel(){
+        ///when delegate pass the value to this page , then we will trigger the flow to figure out we should
         if weatherDetailData.cityString != ""{
             weatherAPI.getWeatherByCity(city: weatherDetailData.cityString) { usableData in
                 DispatchQueue.main.async {
@@ -105,6 +115,7 @@ class WeatherDetailViewController: UIViewController {
             }
         }else{
             weatherAPI.getWeatherByLatLon(lat: weatherDetailData.latString, lon: weatherDetailData.lonString){ usableData in
+                print("經度：\(self.weatherDetailData.lonString),緯度：\(self.weatherDetailData.latString)")
                 DispatchQueue.main.async {
                 self.weatherDetailView.cityLabel.text = usableData.name
                 self.weatherDetailView.weatherConditionLabel.text = usableData.weather[0].description
@@ -117,19 +128,20 @@ class WeatherDetailViewController: UIViewController {
     }
 }
 
-//MARK:-setDataPass
-extension WeatherDetailViewController:CityDataDelegate,LatLonDataDelegate{
-    func cityDataDelegate(text: String) {
 
-        weatherDetailData.cityString = text
-    }
- 
-    func LatLonDataDelegate(lat: String, lon: String) {
-    
-        weatherDetailData.latString = lat
-        weatherDetailData.lonString = lon
-        
-    }
-}
+////MARK:-setDataPass
+//extension WeatherDetailViewController:CityDataDelegate,LatLonDataDelegate{
+//    func cityDataDelegate(text: String) {
+//
+////        weatherDetailData.cityString = text
+//    }
+// 
+//    func LatLonDataDelegate(lat: String, lon: String) {
+//    
+//        weatherDetailData.latString = lat
+//        weatherDetailData.lonString = lon
+//        
+//    }
+//}
 
 

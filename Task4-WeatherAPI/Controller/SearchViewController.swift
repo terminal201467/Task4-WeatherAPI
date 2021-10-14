@@ -17,7 +17,8 @@ class SearchViewController: UIViewController{
 
     //MARK:-setView
     let searchView:SearchView = .init()
-    let weatherDetailViewController = WeatherDetailViewController()
+    let weatherTest = WeatherDetailViewController()
+    
     var cityAPI:CityAPI = .init()
     var searchController:UISearchController!
     
@@ -40,9 +41,12 @@ class SearchViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         setSearchController()
+        setSearchBarDelegate()
         setTableViewDelegateDataSource()
         cityAPI.ReadJson()
     }
+    
+
     
     //MARK:-setSeachController
     func setSearchController(){
@@ -63,15 +67,17 @@ class SearchViewController: UIViewController{
         navigationItem.searchController = searchController
         definesPresentationContext = true
         
-        //delegate
-        searchController.searchBar.delegate = self
-        searchController.searchResultsUpdater = self
     }
     
     //MARK:-setTableViewDelegateAndDataSource
     func setTableViewDelegateDataSource(){
         searchView.tableView.delegate = self
         searchView.tableView.dataSource = self
+    }
+    
+    func setSearchBarDelegate(){
+        searchController.searchBar.delegate = self
+        searchController.searchResultsUpdater = self
     }
     
 }
@@ -94,7 +100,6 @@ extension SearchViewController: UISearchResultsUpdating{
     }
 }
 
-
 //MARK:-setTableViewDelegateAndData
 extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
     //theDataCountInTheTable
@@ -109,7 +114,6 @@ extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
             return cityAPI.searchArray.cityNameArray.count
             
         }
-        
     }
     //theDataContentInCell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -134,26 +138,25 @@ extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
         //1.CellBeSelect(InTheTableCell)
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if cityAPI.searchArray.resultData.count >= 1{
-            
-            let searchCityData = cityAPI.searchArray.resultData[indexPath.row]
-            //2.PassTheDataToDetailPage
-            weatherDetailViewController.cityDataDelegate(text: searchCityData)
-            
-        }else{
-            
-            let cityNameData = cityAPI.searchArray.cityNameArray[indexPath.row]
-            //2.PassTheDataToDetailPage
-            weatherDetailViewController.cityDataDelegate(text: cityNameData)
-            
-        }
-        
-        //3.ShowUPtheWeatherDetailPage
+        //2.TheNextPagePresent
+        let weatherDetailViewController = WeatherDetailViewController()
         weatherDetailViewController.modalTransitionStyle = .coverVertical
         weatherDetailViewController.modalPresentationStyle = .formSheet
         let navigationWeatherViewController = UINavigationController(rootViewController: weatherDetailViewController)
-        present(navigationWeatherViewController, animated: true, completion: nil)
         
+        //3.PassTheDataToDetailPage
+        if cityAPI.searchArray.resultData.count >= 1{
+        
+            let searchCityData = cityAPI.searchArray.resultData[indexPath.row]
+            
+            weatherDetailViewController.cityDataPass(city: searchCityData)
+        }else{
+            let cityNameData = cityAPI.searchArray.cityNameArray[indexPath.row]
+            
+            weatherDetailViewController.cityDataPass(city: cityNameData)
+        }
+        
+        present(navigationWeatherViewController, animated: true, completion: nil)
     }
 }
 

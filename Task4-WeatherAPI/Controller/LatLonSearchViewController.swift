@@ -15,7 +15,6 @@ class LatLonSearchViewController: UIViewController {
     
     let latlonView:LatLonSearchView = .init()
     var weatherDetail:WeatherDetailData = .init()
-    
     weak var latlonDataPassDelegate: LatLonDataDelegate?
     
     //MARK:-LifeCycle
@@ -38,11 +37,11 @@ class LatLonSearchViewController: UIViewController {
         let weatherDetailViewController = WeatherDetailViewController()
         weatherDetailViewController.modalTransitionStyle = .coverVertical
         weatherDetailViewController.modalPresentationStyle = .formSheet
-        
         let navigationWeatherViewController = UINavigationController(rootViewController: weatherDetailViewController)
         present(navigationWeatherViewController, animated: true, completion: nil)
-    
-        weatherDetailViewController.LatLonDataDelegate(lat: weatherDetail.latString, lon: weatherDetail.lonString)
+        weatherDetailViewController.latLonStringPass(lat: weatherDetail.latString, lon: weatherDetail.lonString)
+        print("觸發緯度：\(weatherDetail.latString)")
+        print("觸發經度：\(weatherDetail.lonString)")
     }
     //MARK:-setNavigationBar
     private func setNavigationBar(){
@@ -67,7 +66,6 @@ class LatLonSearchViewController: UIViewController {
 extension LatLonSearchViewController: UITextFieldDelegate{
     ///when the return press will happend
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
         self.view.endEditing(true)
         return true
     }
@@ -78,6 +76,11 @@ extension LatLonSearchViewController: UITextFieldDelegate{
         weatherDetail.lonString = latlonView.lonTextField.text!
 
     }
+    
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        
+    }
+    
     
     
 }
