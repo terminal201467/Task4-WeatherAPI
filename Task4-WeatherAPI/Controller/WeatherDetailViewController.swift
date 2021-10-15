@@ -18,7 +18,7 @@ class WeatherDetailViewController: UIViewController {
     ///DataStruct
     var weatherDetailData:WeatherDetailData = .init()
     
-    
+    ///Delegate
     weak var weatherDetailPassToMainDelegate:PassWeatherToMainPageDelegate?
      
     //MARK:-LifeCycle
@@ -32,7 +32,7 @@ class WeatherDetailViewController: UIViewController {
         setNavigationBar()
         weatherTextLabel()
         
-        }
+    }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -44,11 +44,6 @@ class WeatherDetailViewController: UIViewController {
             self.weatherDetailView.minLabel.text = ""
         }
         
-        if weatherDetailData.currentWeatherData != nil{
-            weatherDetailPassToMainDelegate?.weatherToMainPage(weatherDetailData.currentWeatherData!)
-            print("測試資料：",weatherDetailData.currentWeatherData!)
-            ///checkout this passing action is ok
-        }
     }
     
     //MARK: - dataPass
@@ -67,6 +62,13 @@ class WeatherDetailViewController: UIViewController {
     
     //MARK:-MethodForNavigationBar
     @objc func addWeather(){
+        
+        if weatherDetailData.currentWeatherData != nil{
+            ///這邊的deledate沒有傳值？！
+            weatherDetailPassToMainDelegate?.weatherToMainPage(weatherDetailData.currentWeatherData!)
+            
+            print("測試資料：",weatherDetailData.currentWeatherData!)
+        }
         //dismissEveryPage
         view.window?.rootViewController?.dismiss(animated: true, completion: nil)
     }
@@ -108,12 +110,10 @@ class WeatherDetailViewController: UIViewController {
                 }
                 self.weatherDetailData.currentWeatherData = usableData
             }
-            
         }else{
             
             weatherAPI.getWeatherByLatLon(lat: weatherDetailData.latString, lon: weatherDetailData.lonString){ usableData in
                 print("經度：\(self.weatherDetailData.lonString),緯度：\(self.weatherDetailData.latString)")
-                
                 DispatchQueue.main.async {
                 self.weatherDetailView.cityLabel.text = usableData.name
                 self.weatherDetailView.weatherConditionLabel.text = usableData.weather[0].description
@@ -122,7 +122,6 @@ class WeatherDetailViewController: UIViewController {
                 self.weatherDetailView.minLabel.text = "最低\(usableData.main.temp_min)°"
                 }
                 self.weatherDetailData.currentWeatherData = usableData
-                
             }
         }
     }

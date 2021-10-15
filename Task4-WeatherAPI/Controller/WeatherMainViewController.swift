@@ -13,17 +13,22 @@ protocol PassWeatherToMainPageDelegate:AnyObject{
 
 class WeatherMainViewController: UIViewController {
 
+    ///View
     let weatherView:WeatherView = .init()
+    
+    ///FooterView
     let weatherFooterView:WeatherFooterView = .init()
+    
+    ///DataStruct
     var weatherArray = WeatherArray()
     
-    weak var delegate:PassWeatherToMainPageDelegate?
-    
+    ///Temperature
     var temp:TemperatureUnit = .c{
         didSet{
             weatherView.tableView.reloadData()
         }
     }
+    
     //MARK:-LifeCycle
     override func loadView() {
         super.loadView()
@@ -36,17 +41,16 @@ class WeatherMainViewController: UIViewController {
         setTempLabelChange()
         setSearchCity()
         setSearchLatLon()
-        setWeatherDetailPassToMain()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        setWeatherDetailPassToMain()
+        print("ViewWillAppear")
+        setWeatherDetailPassToMain()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        setWeatherDetailPassToMain()
     }
     
     //MARK:-setMethodForCeisiusAndFahrenheitColorChange
@@ -114,8 +118,12 @@ class WeatherMainViewController: UIViewController {
     
     //MARK:-setWeatherDetailPassToMain
     func setWeatherDetailPassToMain(){
+        ///the VC is reference From WeatherDetailViewController
         let weatherDetailViewController = WeatherDetailViewController()
         weatherDetailViewController.weatherDetailPassToMainDelegate = self
+        
+        ///Can sure that delegate has been triggered
+        print("DelegateFunction")
     }
 }
 
@@ -132,29 +140,32 @@ extension WeatherMainViewController:UITableViewDelegate,UITableViewDataSource{
         
         let weather = weatherArray.todayWeatherData[indexPath.row]
         cell.configuration(currentWeather: weather)
-        
+         
         return cell
     }
     
     ///tableEditing
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         //1.can touch the cell
-        
+        tableView.deselectRow(at: indexPath, animated: true)
         
         //2.touch the cell will present the weatherDetailPage
-        
+        let weatherDetailViewController = WeatherDetailViewController()
+        weatherDetailViewController.modalTransitionStyle = .coverVertical
+        weatherDetailViewController.modalPresentationStyle = .formSheet
+        present(weatherDetailViewController, animated: true, completion: nil)
         
         //3.pass the value to weatherDetailPage
+        
+        
     }
-    
+        
     ///
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        
         return true
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-
         return 200
     }
     
@@ -170,15 +181,13 @@ extension WeatherMainViewController:UITableViewDelegate,UITableViewDataSource{
 }
 
 //MARK:-setReceiveData
+///Delegate didn't trigger
 extension WeatherMainViewController:PassWeatherToMainPageDelegate{
-    ///delegate didn't trigger
     func weatherToMainPage(_ data: CurrentWeatherData) {
         //GetThePassData
         print("打印回傳資料",data)
-
         //addThePassDataToArray
         weatherArray.todayWeatherData.append(data)
-
     }
 
 }
