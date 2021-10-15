@@ -7,20 +7,17 @@
 
 import UIKit
 
-protocol CityDataDelegate {
-    func cityDataDelegate(text:String)
-}
 
 //RememberWriteControllerOnly
 class SearchViewController: UIViewController{
 
+
     //MARK:-setView
     let searchView:SearchView = .init()
-    let weatherDetailViewController = WeatherDetailViewController()
-    var cityAPI:CityAPI = .init()
-    var searchController:UISearchController!
     
-    var cityDataPass:CityDataDelegate?
+    var cityAPI:CityAPI = .init()
+    
+    var searchController:UISearchController!
     
     //MARK:-LifeCycle
     override func loadView() {
@@ -29,6 +26,7 @@ class SearchViewController: UIViewController{
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         DispatchQueue.main.async {
             self.searchController.searchBar.becomeFirstResponder()
         }
@@ -37,12 +35,11 @@ class SearchViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         setSearchController()
+        setSearchBarDelegate()
         setTableViewDelegateDataSource()
         cityAPI.ReadJson()
-        
-        
     }
-    
+
     //MARK:-setSeachController
     func setSearchController(){
         
@@ -53,17 +50,14 @@ class SearchViewController: UIViewController{
         searchController.searchBar.showsCancelButton = true
         searchController.searchBar.searchTextField.clearButtonMode = .whileEditing
         searchController.hidesNavigationBarDuringPresentation = false
-        searchController.obscuresBackgroundDuringPresentation = true
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.isActive = true
         
-        //naviagationBarEqualToSearchController
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 15)]
         title = "輸入城市"
         navigationItem.searchController = searchController
         definesPresentationContext = true
         
-        //delegate
-        searchController.searchBar.delegate = self
-        searchController.searchResultsUpdater = self
     }
     
     //MARK:-setTableViewDelegateAndDataSource
@@ -71,6 +65,12 @@ class SearchViewController: UIViewController{
         searchView.tableView.delegate = self
         searchView.tableView.dataSource = self
     }
+    
+    func setSearchBarDelegate(){
+        searchController.searchBar.delegate = self
+        searchController.searchResultsUpdater = self
+    }
+    
 }
 
 //MARK:-setSearchBarDelegate
@@ -86,14 +86,12 @@ extension SearchViewController: UISearchResultsUpdating{
         if let text = searchController.searchBar.text{
         //Everything about the searching Result will be handle in this scope
             cityAPI.searchArray.filterArray(for: text)
-            
-            print("搜尋結果：\(cityAPI.searchArray.resultData)")
-            print("搜尋列：\(text)")
         }
         searchView.tableView.reloadData()
     }
 }
 
+//MARK:-setTableViewDelegateAndData
 extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
     //theDataCountInTheTable
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -107,13 +105,11 @@ extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
             return cityAPI.searchArray.cityNameArray.count
             
         }
-        
     }
     //theDataContentInCell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //1.RegisterTheCell
         let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath)
-
         //2.TheCellLabelContent
         if cityAPI.searchArray.resultData.count >= 1{
             
@@ -122,23 +118,39 @@ extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
         }else{
             
             cell.textLabel?.text = cityAPI.searchArray.cityNameArray[indexPath.row]
+            
         }
         
         return cell
+        
     }
-    
     //WhenSelectCellWouldHappend
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //1.CellBeSelect(InTheTableCell)
         tableView.deselectRow(at: indexPath, animated: true)
         
-        //2.PassTheDataToDetailPage
-        cityDataPass?.cityDataDelegate(text: cityAPI.searchArray.resultData[indexPath.row])
-        
-        //3.ShowUPtheWeatherDetailPage
+        //2.TheNextPagePresent
+        let weatherDetailViewController = WeatherDetailViewController()
         weatherDetailViewController.modalTransitionStyle = .coverVertical
         weatherDetailViewController.modalPresentationStyle = .formSheet
-        present(weatherDetailViewController, animated: true, completion: nil)
+        let navigationWeatherViewController = UINavigationController(rootViewController: weatherDetailViewController)
         
+        //3.PassTheDataToDetailPage
+        if cityAPI.searchArray.resultData.count >= 1{
+        
+            let searchCityData = cityAPI.searchArray.resultData[indexPath.row]
+            
+            weatherDetailViewController.cityDataPass(city: searchCityData)
+        }else{
+            let cityNameData = cityAPI.searchArray.cityNameArray[indexPath.row]
+            
+            weatherDetailViewController.cityDataPass(city: cityNameData)
+        }
+        
+        present(navigationWeatherViewController, animated: true, completion: nil)
     }
 }
+
+
+
+

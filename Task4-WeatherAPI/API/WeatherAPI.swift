@@ -7,69 +7,84 @@
 
 import Foundation
 
+extension URL{
+    
+    func withQueries(_ quries:[String:String])->URL?{
+        
+        var components = URLComponents(url: self, resolvingAgainstBaseURL: true)
+        
+        components?.queryItems = quries.map{
+            
+            URLQueryItem(name: $0.key, value: $0.value)
+        }
+        
+        return components?.url
+    }
+}
+
 //setClassForRequestTheWeatherAPI
 class WeatherAPI{
     //setBaseURL
-    static let shared = WeatherAPI()
-    let baseURL = URL(string:"https://api.openweathermap.org/data/2.5/weather?")
-    let api = API()
     
+    var weatherDetail:WeatherDetailData = .init()
+    
+    var baseURL = URL(string:"https://api.openweathermap.org/")
+    
+    let api = API()
+    var usableData: CurrentWeatherData?
     //setFunctionForCity
-    //api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
-    func getWeatherByCity(city:String,completionHandler:((Result<CurrentWeatherData,Error>)->Void)?){
-        
-        var urlComponent = URLComponents()
-        
-        urlComponent.queryItems = [
-            URLQueryItem(name: "name", value: city),
-            URLQueryItem(name: "appid", value: api.key)
-        ]
-        
-        if let url = baseURL?.appendingPathComponent("getWeatherByCity"){
-            URLSession.shared.dataTask(with: url){(data,response,error) in
-                
+    
+    func getWeatherByCity(city:String, completion: @escaping (CurrentWeatherData) -> Void){
+            let queries = [
+                "q":city,
+                "appid":api.key
+            ]
+    
+        if let url = baseURL?.appendingPathComponent("data/2.5/weather").withQueries(queries){
+            //api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
+            URLSession.shared.dataTask(with: url){ [self](data,response,error) in
+
                 if let error = error{
                     print("Error:\(error.localizedDescription)")
-                    completionHandler?(.failure(error))
                     return
                 }
                 
                 if let response = response as? HTTPURLResponse{
                     print("StatusCode:\(response.statusCode)")
-                    
                 }
                 
                 if let data = data {
                     let decoder = JSONDecoder()
+                    
                     do{
-                        let weatherData = try decoder.decode(CurrentWeatherData.self, from: data)
-                        completionHandler?(.success(weatherData))
+                        
+                        let data = try decoder.decode(CurrentWeatherData.self, from: data)
+                        completion(data)
+                        self.weatherDetail.currentWeatherData = data
                         
                     }catch{
                         
-                        completionHandler?(.failure(error))
+                        print("Not Decode")
+                        
                     }
                 }
-            }
+            }.resume()
         }
     }
     
     //setFunctionForlatlon
-    //api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
-    func getWeatherByLatLon(lat:String,lon:String,completionHandler:((Result<CurrentWeatherData,Error>)->Void)?){
-        var urlComponent = URLComponents()
-            
-            urlComponent.queryItems = [
-                URLQueryItem(name: "lat", value: lat),
-                URLQueryItem(name: "lon", value: lon),
-                URLQueryItem(name: "appid", value: api.key)
+    func getWeatherByLatLon(lat:String,lon:String,completion: @escaping (CurrentWeatherData) -> Void){
+            let queries = [
+                "lat":lat,
+                "lon":lon,
+                "appid":api.key
             ]
             
-            if let url = baseURL?.appendingPathComponent("getWeatherByLatLon"){
-                URLSession.shared.dataTask(with: url){(data,response,error) in
+        if let url = baseURL?.appendingPathComponent("data/2.5/weather").withQueries(queries){
+            //api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
+            URLSession.shared.dataTask(with: url){[self](data,response,error) in
                     if let error = error{
                         print("Error:\(error.localizedDescription)")
-                        completionHandler?(.failure(error))
                     }
                     
                     if let response = response as? HTTPURLResponse{
@@ -79,13 +94,17 @@ class WeatherAPI{
                     if let data = data{
                         let decoder = JSONDecoder()
                         do{
-                            let weather = try decoder.decode(CurrentWeatherData.self, from: data)
-                            completionHandler?(.success(weather))
+                            let data = try decoder.decode(CurrentWeatherData.self, from: data)
+                            completion(data)
+                            self.weatherDetail.currentWeatherData = data
+  
                         }catch{
-                            completionHandler?(.failure(error))
+                            
+                            print("Not Decode")
+                            
                         }
-                    }
-            }
+                }
+            }.resume()
         }
     }
 }

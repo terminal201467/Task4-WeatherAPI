@@ -7,11 +7,22 @@
 
 import UIKit
 
-class WeatherViewController: UIViewController {
-    
+protocol PassWeatherToMainPageDelegate:AnyObject{
+    func weatherToMainPage(_ data:CurrentWeatherData)
+}
+
+class WeatherMainViewController: UIViewController {
+
+    ///View
     let weatherView:WeatherView = .init()
+    
+    ///FooterView
     let weatherFooterView:WeatherFooterView = .init()
-    let weather:[CurrentWeatherData] = []
+    
+    ///DataStruct
+    var weatherArray = WeatherArray()
+    
+    ///Temperature
     var temp:TemperatureUnit = .c{
         didSet{
             weatherView.tableView.reloadData()
@@ -30,8 +41,18 @@ class WeatherViewController: UIViewController {
         setTempLabelChange()
         setSearchCity()
         setSearchLatLon()
-        
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("ViewWillAppear")
+        setWeatherDetailPassToMain()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
     //MARK:-setMethodForCeisiusAndFahrenheitColorChange
     @objc func labelColorChange(){
         print("colorChange")
@@ -81,38 +102,74 @@ class WeatherViewController: UIViewController {
     
     //MARK:-setTempLabelChange
     func setTempLabelChange(){
-        let labelChange = UITapGestureRecognizer(target: self, action: #selector(WeatherViewController.labelColorChange))
+        let labelChange = UITapGestureRecognizer(target: self, action: #selector(WeatherMainViewController.labelColorChange))
         weatherFooterView.tempStackView.addGestureRecognizer(labelChange)
     }
     
     //MARK:-setSearch
     func setSearchCity(){
-        weatherFooterView.locationSearchMark.addTarget(self, action: #selector(WeatherViewController.toSearchPage), for: .touchUpInside)
+        weatherFooterView.locationSearchMark.addTarget(self, action: #selector(WeatherMainViewController.toSearchPage), for: .touchUpInside)
     }
     
     //MARK:-setSearchByLatLon
     func setSearchLatLon(){
-        weatherFooterView.latLonSearchMark.addTarget(self, action: #selector(WeatherViewController.toSearchLatLonPage), for: .touchUpInside)
+        weatherFooterView.latLonSearchMark.addTarget(self, action: #selector(WeatherMainViewController.toSearchLatLonPage), for: .touchUpInside)
     }
     
+    //MARK:-setWeatherDetailPassToMain
+    func setWeatherDetailPassToMain(){
+        ///the VC is reference From WeatherDetailViewController
+        let weatherDetailViewController = WeatherDetailViewController()
+        weatherDetailViewController.weatherDetailPassToMainDelegate = self
+        
+        ///Can sure that delegate has been triggered
+        print("DelegateFunction")
+    }
 }
 
 //MARK:-extensionForTableView
-
-extension WeatherViewController:UITableViewDelegate,UITableViewDataSource{
+extension WeatherMainViewController:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //return the Cell number For WeatherPage
-        return weather.count
+        return weatherArray.todayWeatherData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //return the Cell content For WeatherPage
-        let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherCell", for: indexPath)
-        cell.textLabel?.text = weather.description
+        let cell = tableView.dequeueReusableCell(withIdentifier: WeatherViewTableViewCell.reuseIdentifier, for: indexPath) as! WeatherViewTableViewCell
+        
+        let weather = weatherArray.todayWeatherData[indexPath.row]
+        cell.configuration(currentWeather: weather)
+         
         return cell
     }
     
+    ///tableEditing
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        //1.can touch the cell
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        //2.touch the cell will present the weatherDetailPage
+        let weatherDetailViewController = WeatherDetailViewController()
+        weatherDetailViewController.modalTransitionStyle = .coverVertical
+        weatherDetailViewController.modalPresentationStyle = .formSheet
+        present(weatherDetailViewController, animated: true, completion: nil)
+        
+        //3.pass the value to weatherDetailPage
+        
+        
+    }
+        
+    ///
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 200
+    }
+    
+    ///Footer
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 100
     }
@@ -121,6 +178,16 @@ extension WeatherViewController:UITableViewDelegate,UITableViewDataSource{
         return weatherFooterView
     }
     
-    
 }
 
+//MARK:-setReceiveData
+///Delegate didn't trigger
+extension WeatherMainViewController:PassWeatherToMainPageDelegate{
+    func weatherToMainPage(_ data: CurrentWeatherData) {
+        //GetThePassData
+        print("打印回傳資料",data)
+        //addThePassDataToArray
+        weatherArray.todayWeatherData.append(data)
+    }
+
+}

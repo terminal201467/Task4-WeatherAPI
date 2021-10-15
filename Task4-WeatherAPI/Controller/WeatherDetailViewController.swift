@@ -9,11 +9,19 @@ import UIKit
 
 class WeatherDetailViewController: UIViewController {
     
+    ///GetWeather
     let weatherAPI = WeatherAPI()
-    let weatherDetailView = WeatherDetailView()
     
+    ///View
+    let weatherDetailView:WeatherDetailView = .init()
+    
+    ///DataStruct
+    var weatherDetailData:WeatherDetailData = .init()
+    
+    ///Delegate
+    weak var weatherDetailPassToMainDelegate:PassWeatherToMainPageDelegate?
+     
     //MARK:-LifeCycle
-    
     override func loadView() {
         super.loadView()
         view = weatherDetailView
@@ -21,43 +29,103 @@ class WeatherDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setTableViewDelegate()
+        setNavigationBar()
+        weatherTextLabel()
         
     }
-//    func setTableViewDelegate(){
-//        weatherDetailView.tableView.delegate = self
-//        weatherDetailView.tableView.dataSource = self
-//    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        DispatchQueue.main.async {
+            self.weatherDetailView.cityLabel.text = ""
+            self.weatherDetailView.weatherConditionLabel.text = ""
+            self.weatherDetailView.temperatureLabel.text = ""
+            self.weatherDetailView.maxLabel.text = ""
+            self.weatherDetailView.minLabel.text = ""
+        }
+        
+    }
+    
+    //MARK: - dataPass
+    func cityDataPass(city:String){
+        weatherDetailData.cityString = city
+        print("城市:\(weatherDetailData.cityString)")
+    }
+    
+    func latLonStringPass(lat:String,lon:String){
+        weatherDetailData.latString = lat
+        weatherDetailData.lonString = lon
+        
+        print("經度:\(weatherDetailData.latString)")
+        print("緯度:\(weatherDetailData.lonString)")
+    }
+    
+    //MARK:-MethodForNavigationBar
+    @objc func addWeather(){
+        
+        if weatherDetailData.currentWeatherData != nil{
+            ///這邊的deledate沒有傳值？！
+            weatherDetailPassToMainDelegate?.weatherToMainPage(weatherDetailData.currentWeatherData!)
+            
+            print("測試資料：",weatherDetailData.currentWeatherData!)
+        }
+        //dismissEveryPage
+        view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func backToSearchPage(){
+        dismiss(animated: true, completion: nil)
+    }
+    
+    //MARK:-setNavigationBar
+    func setNavigationBar(){
+        navigationController?.navigationBar.tintColor = .white
+        
+        let addButton = UIBarButtonItem(title: "加入",
+                                        style: .plain,
+                                        target: self,
+                                        action: #selector(WeatherDetailViewController.addWeather))
+        
+        let cancelButton = UIBarButtonItem(title: "取消",
+                                           style: .plain,
+                                           target: self,
+                                           action: #selector(WeatherDetailViewController.backToSearchPage))
+        
+        navigationItem.rightBarButtonItem = addButton
+        navigationItem.leftBarButtonItem = cancelButton
+    }
+    
+    //MARK:-setWeatherText
+    func weatherTextLabel(){
+        
+        if weatherDetailData.cityString != ""{
+            ///this place should add the situation about not Decode the data(but should be laterer solve)
+            weatherAPI.getWeatherByCity(city: weatherDetailData.cityString) { usableData in
+                DispatchQueue.main.async {
+                self.weatherDetailView.cityLabel.text = usableData.name
+                self.weatherDetailView.weatherConditionLabel.text = usableData.weather[0].description
+                self.weatherDetailView.temperatureLabel.text = "\(usableData.main.temp)°"
+                self.weatherDetailView.maxLabel.text = "最高\(usableData.main.temp_max)°"
+                self.weatherDetailView.minLabel.text = "最低\(usableData.main.temp_min)°"
+                }
+                self.weatherDetailData.currentWeatherData = usableData
+            }
+        }else{
+            
+            weatherAPI.getWeatherByLatLon(lat: weatherDetailData.latString, lon: weatherDetailData.lonString){ usableData in
+                print("經度：\(self.weatherDetailData.lonString),緯度：\(self.weatherDetailData.latString)")
+                DispatchQueue.main.async {
+                self.weatherDetailView.cityLabel.text = usableData.name
+                self.weatherDetailView.weatherConditionLabel.text = usableData.weather[0].description
+                self.weatherDetailView.temperatureLabel.text = "\(usableData.main.temp)°"
+                self.weatherDetailView.maxLabel.text = "最高\(usableData.main.temp_max)°"
+                self.weatherDetailView.minLabel.text = "最低\(usableData.main.temp_min)°"
+                }
+                self.weatherDetailData.currentWeatherData = usableData
+            }
+        }
+    }
 }
 
-//extension WeatherDetailViewController:UITableViewDelegate,UITableViewDataSource{
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        //these Detail need to Custom
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        //these Detail need to Custom
-//        //1.register
-//
-//        //2.cell content
-//
-//        //3.return cell
-//    }
-//}
 
-
-//MARK:-setDataPass
-//extension WeatherDetailViewController:CityDataDelegate,LatLonDataDelegate{
-//    ///accept the city Data
-//    func cityDataDelegate(text: String) {
-//        ///request the weather data by city
-//        
-//    }
-//    
-//    ///accept the lat lon Data
-//    func LatLonDataDelegate(lat: String, lon: String) {
-//        ///request the weather data by lat lon
-//        
-//    }
-//}
 

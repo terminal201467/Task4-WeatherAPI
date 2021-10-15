@@ -7,14 +7,11 @@
 
 import UIKit
 
-protocol LatLonDataDelegate {
-    func LatLonDataDelegate(lat:String,lon:String)
-}
-
 class LatLonSearchViewController: UIViewController {
     
     let latlonView:LatLonSearchView = .init()
-    let latlonData:LatLonDataDelegate? = nil
+    
+    var weatherDetail:WeatherDetailData = .init()
     
     //MARK:-LifeCycle
     override func loadView() {
@@ -36,15 +33,17 @@ class LatLonSearchViewController: UIViewController {
         let weatherDetailViewController = WeatherDetailViewController()
         weatherDetailViewController.modalTransitionStyle = .coverVertical
         weatherDetailViewController.modalPresentationStyle = .formSheet
-        present(weatherDetailViewController, animated: true, completion: nil)
+        let navigationWeatherViewController = UINavigationController(rootViewController: weatherDetailViewController)
+        present(navigationWeatherViewController, animated: true, completion: nil)
         
-        ///pass lat lon data
-        
-//        latlonData.LatLonDataDelegate(lat: <#T##String#>, lon: <#T##String#>)
+        weatherDetailViewController.latLonStringPass(lat: weatherDetail.latString, lon: weatherDetail.lonString)
+        print("觸發緯度：\(weatherDetail.latString)")
+        print("觸發經度：\(weatherDetail.lonString)")
     }
     //MARK:-setNavigationBar
-    func setNavigationBar(){
+    private func setNavigationBar(){
         title = "輸入經緯度"
+        navigationController?.navigationBar.tintColor = .white
         
         let correctButton = UIBarButtonItem(title: "確定", style: .plain, target: self, action: #selector(LatLonSearchViewController.correct))
         
@@ -59,20 +58,19 @@ class LatLonSearchViewController: UIViewController {
         latlonView.latTextField.delegate = self
         latlonView.lonTextField.delegate = self
     }
-    
-    //WhereCanGetTheInputData?
-
 }
 
 extension LatLonSearchViewController: UITextFieldDelegate{
     ///when the return press will happend
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        textField.text
-        textField.text
-        
         self.view.endEditing(true)
         return true
     }
     
-    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        //1.Take value from textField
+        weatherDetail.latString = latlonView.latTextField.text!
+        weatherDetail.lonString = latlonView.lonTextField.text!
+
+    }
 }
