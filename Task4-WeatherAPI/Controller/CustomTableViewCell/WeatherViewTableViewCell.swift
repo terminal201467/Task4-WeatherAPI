@@ -10,7 +10,7 @@ import UIKit
 extension UITableViewCell{
     
     static var reuseIdentifier:String{
-        return "\(Self.self)"
+        return "WeatherCell"
     }
 }
 
@@ -34,6 +34,10 @@ class WeatherViewTableViewCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+        self.backgroundColor = .blue
+        print("CellBackGround")
+        contentView.addSubview(cityLabel)
+        contentView.addSubview(temperatureLabel)
     }
     
     required init?(coder: NSCoder) {

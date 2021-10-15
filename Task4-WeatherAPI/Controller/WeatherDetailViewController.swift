@@ -64,10 +64,7 @@ class WeatherDetailViewController: UIViewController {
     @objc func addWeather(){
         
         if weatherDetailData.currentWeatherData != nil{
-            ///這邊的deledate沒有傳值？！
             weatherDetailPassToMainDelegate?.weatherToMainPage(weatherDetailData.currentWeatherData!)
-            
-            print("測試資料：",weatherDetailData.currentWeatherData!)
         }
         //dismissEveryPage
         view.window?.rootViewController?.dismiss(animated: true, completion: nil)

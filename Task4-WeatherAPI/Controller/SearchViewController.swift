@@ -10,14 +10,16 @@ import UIKit
 
 //RememberWriteControllerOnly
 class SearchViewController: UIViewController{
-
-
+    
     //MARK:-setView
     let searchView:SearchView = .init()
     
     var cityAPI:CityAPI = .init()
     
     var searchController:UISearchController!
+    
+    ///ReferenceTheWeatherMainViewController
+    var mainVC: WeatherMainViewController?
     
     //MARK:-LifeCycle
     override func loadView() {
@@ -42,7 +44,6 @@ class SearchViewController: UIViewController{
 
     //MARK:-setSeachController
     func setSearchController(){
-        
         searchController = UISearchController(searchResultsController:nil)
         searchController.searchBar.placeholder = "搜尋"
         searchController.searchBar.setValue("取消", forKey: "cancelButtonText")
@@ -131,8 +132,13 @@ extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
         
         //2.TheNextPagePresent
         let weatherDetailViewController = WeatherDetailViewController()
+        
         weatherDetailViewController.modalTransitionStyle = .coverVertical
         weatherDetailViewController.modalPresentationStyle = .formSheet
+        
+        ///LetTheDelegateEqualToTheMainReference
+        weatherDetailViewController.weatherDetailPassToMainDelegate = mainVC
+        
         let navigationWeatherViewController = UINavigationController(rootViewController: weatherDetailViewController)
         
         //3.PassTheDataToDetailPage

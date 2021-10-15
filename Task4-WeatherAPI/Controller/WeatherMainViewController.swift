@@ -29,6 +29,7 @@ class WeatherMainViewController: UIViewController {
         }
     }
     
+    
     //MARK:-LifeCycle
     override func loadView() {
         super.loadView()
@@ -46,7 +47,7 @@ class WeatherMainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("ViewWillAppear")
-        setWeatherDetailPassToMain()
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -79,6 +80,10 @@ class WeatherMainViewController: UIViewController {
     //MARK:-setMethodForSearchMark
     @objc func toSearchPage(){
         let searchViewController = SearchViewController()
+        ///ReferenceTheMainVC
+        ///ToCreateTheBridgeConnect
+        searchViewController.mainVC = self
+        
         searchViewController.modalPresentationStyle = .formSheet
         searchViewController.modalTransitionStyle = .coverVertical
         let nav = UINavigationController(rootViewController: searchViewController)
@@ -86,8 +91,9 @@ class WeatherMainViewController: UIViewController {
     }
     
     @objc func toSearchLatLonPage(){
-        ///create a new page
+
         let latLonSearchViewController = LatLonSearchViewController()
+        latLonSearchViewController.mainVC = self
         latLonSearchViewController.modalPresentationStyle = .formSheet
         latLonSearchViewController.modalTransitionStyle = .coverVertical
         let nav = UINavigationController(rootViewController: latLonSearchViewController)
@@ -115,16 +121,6 @@ class WeatherMainViewController: UIViewController {
     func setSearchLatLon(){
         weatherFooterView.latLonSearchMark.addTarget(self, action: #selector(WeatherMainViewController.toSearchLatLonPage), for: .touchUpInside)
     }
-    
-    //MARK:-setWeatherDetailPassToMain
-    func setWeatherDetailPassToMain(){
-        ///the VC is reference From WeatherDetailViewController
-        let weatherDetailViewController = WeatherDetailViewController()
-        weatherDetailViewController.weatherDetailPassToMainDelegate = self
-        
-        ///Can sure that delegate has been triggered
-        print("DelegateFunction")
-    }
 }
 
 //MARK:-extensionForTableView
@@ -139,6 +135,7 @@ extension WeatherMainViewController:UITableViewDelegate,UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: WeatherViewTableViewCell.reuseIdentifier, for: indexPath) as! WeatherViewTableViewCell
         
         let weather = weatherArray.todayWeatherData[indexPath.row]
+        
         cell.configuration(currentWeather: weather)
          
         return cell
@@ -154,9 +151,6 @@ extension WeatherMainViewController:UITableViewDelegate,UITableViewDataSource{
         weatherDetailViewController.modalTransitionStyle = .coverVertical
         weatherDetailViewController.modalPresentationStyle = .formSheet
         present(weatherDetailViewController, animated: true, completion: nil)
-        
-        //3.pass the value to weatherDetailPage
-        
         
     }
         
@@ -181,13 +175,11 @@ extension WeatherMainViewController:UITableViewDelegate,UITableViewDataSource{
 }
 
 //MARK:-setReceiveData
-///Delegate didn't trigger
 extension WeatherMainViewController:PassWeatherToMainPageDelegate{
     func weatherToMainPage(_ data: CurrentWeatherData) {
         //GetThePassData
-        print("打印回傳資料",data)
-        //addThePassDataToArray
         weatherArray.todayWeatherData.append(data)
+        print(weatherArray.todayWeatherData)
     }
 
 }

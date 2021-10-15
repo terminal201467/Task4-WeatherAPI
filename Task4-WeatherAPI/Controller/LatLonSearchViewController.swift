@@ -8,10 +8,15 @@
 import UIKit
 
 class LatLonSearchViewController: UIViewController {
+
     
     let latlonView:LatLonSearchView = .init()
     
     var weatherDetail:WeatherDetailData = .init()
+    
+    ///ReferenceTheWeatherMainViewController
+    
+    var mainVC:WeatherMainViewController?
     
     //MARK:-LifeCycle
     override func loadView() {
@@ -33,12 +38,14 @@ class LatLonSearchViewController: UIViewController {
         let weatherDetailViewController = WeatherDetailViewController()
         weatherDetailViewController.modalTransitionStyle = .coverVertical
         weatherDetailViewController.modalPresentationStyle = .formSheet
+        
+        ///ReferenceToWeatherDetail
+        weatherDetailViewController.weatherDetailPassToMainDelegate = mainVC
+        
         let navigationWeatherViewController = UINavigationController(rootViewController: weatherDetailViewController)
         present(navigationWeatherViewController, animated: true, completion: nil)
         
         weatherDetailViewController.latLonStringPass(lat: weatherDetail.latString, lon: weatherDetail.lonString)
-        print("觸發緯度：\(weatherDetail.latString)")
-        print("觸發經度：\(weatherDetail.lonString)")
     }
     //MARK:-setNavigationBar
     private func setNavigationBar(){
@@ -74,3 +81,6 @@ extension LatLonSearchViewController: UITextFieldDelegate{
 
     }
 }
+
+
+
