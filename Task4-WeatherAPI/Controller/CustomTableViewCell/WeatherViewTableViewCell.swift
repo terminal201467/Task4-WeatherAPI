@@ -8,7 +8,6 @@
 import UIKit
 
 extension UITableViewCell{
-    
     static var reuseIdentifier:String{
         return "WeatherCell"
     }
@@ -18,35 +17,67 @@ class WeatherViewTableViewCell: UITableViewCell {
     
     let cityLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .left
-        label.font = .systemFont(ofSize: 17)
-        label.textColor = .red
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 35)
+        label.textColor = .white
+        label.numberOfLines = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let temperatureLabel:UILabel = {
         var label = UILabel()
-        label.textAlignment = .right
-        label.font = .systemFont(ofSize:20)
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize:40)
         label.textColor = .white
+        label.numberOfLines = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    
+    lazy var stackView:UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [cityLabel,temperatureLabel])
+        stackView.axis = .horizontal
+        stackView.distribution = .fillProportionally
+        stackView.alignment = .center
+        stackView.spacing = 5
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
-        self.backgroundColor = .blue
-        print("CellBackGround")
+        ///label Didn't show the text
+        ///why it happend?
         contentView.addSubview(cityLabel)
         contentView.addSubview(temperatureLabel)
+        contentView.addSubview(stackView)
+        autoLayout()
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        // Configure the view for the selected state
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK:-autoLayout
+    func autoLayout(){
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            stackView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            stackView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
+    }
+    
     func configuration(currentWeather:CurrentWeatherData){
-        textLabel?.text = currentWeather.name
-        detailTextLabel?.text = "\(currentWeather.main.temp)"
+        cityLabel.text = currentWeather.name
+        ///tap the stackView will trigger the farhensive and ceisius
+        temperatureLabel.text = "\(currentWeather.main.temp)°"
     }
 }
 

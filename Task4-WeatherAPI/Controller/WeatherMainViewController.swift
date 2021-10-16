@@ -46,8 +46,6 @@ class WeatherMainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("ViewWillAppear")
-
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -137,30 +135,37 @@ extension WeatherMainViewController:UITableViewDelegate,UITableViewDataSource{
         let weather = weatherArray.todayWeatherData[indexPath.row]
         
         cell.configuration(currentWeather: weather)
-         
+        
         return cell
     }
     
     ///tableEditing
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         //1.can touch the cell
-        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: false)
         
         //2.touch the cell will present the weatherDetailPage
         let weatherDetailViewController = WeatherDetailViewController()
         weatherDetailViewController.modalTransitionStyle = .coverVertical
         weatherDetailViewController.modalPresentationStyle = .formSheet
-        present(weatherDetailViewController, animated: true, completion: nil)
+        let nav = UINavigationController(rootViewController: weatherDetailViewController)
+        present(nav, animated: true, completion: nil)
         
+        //3.showTheWeatherDetailPage,AndNeedTheData
     }
         
-    ///
+    
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        self.weatherArray.todayWeatherData.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200
+        return 100
     }
     
     ///Footer
@@ -179,7 +184,7 @@ extension WeatherMainViewController:PassWeatherToMainPageDelegate{
     func weatherToMainPage(_ data: CurrentWeatherData) {
         //GetThePassData
         weatherArray.todayWeatherData.append(data)
-        print(weatherArray.todayWeatherData)
+        weatherView.tableView.reloadData()
     }
 
 }

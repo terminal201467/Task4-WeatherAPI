@@ -49,15 +49,11 @@ class WeatherDetailViewController: UIViewController {
     //MARK: - dataPass
     func cityDataPass(city:String){
         weatherDetailData.cityString = city
-        print("城市:\(weatherDetailData.cityString)")
     }
     
     func latLonStringPass(lat:String,lon:String){
         weatherDetailData.latString = lat
         weatherDetailData.lonString = lon
-        
-        print("經度:\(weatherDetailData.latString)")
-        print("緯度:\(weatherDetailData.lonString)")
     }
     
     //MARK:-MethodForNavigationBar
