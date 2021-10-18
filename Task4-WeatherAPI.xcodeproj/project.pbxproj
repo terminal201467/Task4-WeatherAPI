@@ -21,6 +21,9 @@
 		9717D1EC27045FDC000A1899 /* CityAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9717D1EB27045FDC000A1899 /* CityAPI.swift */; };
 		9717D1EE27045FF8000A1899 /* WeatherAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9717D1ED27045FF8000A1899 /* WeatherAPI.swift */; };
 		9717D1F227046058000A1899 /* WeatherDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9717D1F127046058000A1899 /* WeatherDetailView.swift */; };
+		972AC19D271D490500F751F6 /* current.city.list.json in Resources */ = {isa = PBXBuildFile; fileRef = 972AC19A271D490500F751F6 /* current.city.list.json */; };
+		972AC19E271D490600F751F6 /* Json.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 972AC19B271D490500F751F6 /* Json.xcassets */; };
+		972AC19F271D490600F751F6 /* Asset.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 972AC19C271D490500F751F6 /* Asset.xcassets */; };
 		979EDDE927054E70001342E8 /* WeatherFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 979EDDE827054E70001342E8 /* WeatherFooterView.swift */; };
 		979EDDEB27057FBE001342E8 /* Json.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 979EDDEA27057FBE001342E8 /* Json.xcassets */; };
 		979EDDF92706B419001342E8 /* LatLonSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 979EDDF82706B419001342E8 /* LatLonSearchViewController.swift */; };
@@ -46,6 +49,9 @@
 		9717D1EB27045FDC000A1899 /* CityAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityAPI.swift; sourceTree = "<group>"; };
 		9717D1ED27045FF8000A1899 /* WeatherAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAPI.swift; sourceTree = "<group>"; };
 		9717D1F127046058000A1899 /* WeatherDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailView.swift; sourceTree = "<group>"; };
+		972AC19A271D490500F751F6 /* current.city.list.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = current.city.list.json; sourceTree = "<group>"; };
+		972AC19B271D490500F751F6 /* Json.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Json.xcassets; sourceTree = "<group>"; };
+		972AC19C271D490500F751F6 /* Asset.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Asset.xcassets; sourceTree = "<group>"; };
 		979EDDE827054E70001342E8 /* WeatherFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherFooterView.swift; sourceTree = "<group>"; };
 		979EDDEA27057FBE001342E8 /* Json.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Json.xcassets; sourceTree = "<group>"; };
 		979EDDF82706B419001342E8 /* LatLonSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatLonSearchViewController.swift; sourceTree = "<group>"; };
@@ -134,6 +140,7 @@
 			children = (
 				979EDDEA27057FBE001342E8 /* Json.xcassets */,
 				979EDE0727085D04001342E8 /* current.city.list.json */,
+				972AC199271D490500F751F6 /* Json */,
 			);
 			path = Json;
 			sourceTree = "<group>";
@@ -155,6 +162,16 @@
 				9717D1ED27045FF8000A1899 /* WeatherAPI.swift */,
 			);
 			path = API;
+			sourceTree = "<group>";
+		};
+		972AC199271D490500F751F6 /* Json */ = {
+			isa = PBXGroup;
+			children = (
+				972AC19A271D490500F751F6 /* current.city.list.json */,
+				972AC19B271D490500F751F6 /* Json.xcassets */,
+				972AC19C271D490500F751F6 /* Asset.xcassets */,
+			);
+			name = Json;
 			sourceTree = "<group>";
 		};
 		979EDDFE2706C139001342E8 /* CustomTableViewCell */ = {
@@ -222,8 +239,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				972AC19F271D490600F751F6 /* Asset.xcassets in Resources */,
 				9717D1CC27043AB7000A1899 /* LaunchScreen.storyboard in Resources */,
+				972AC19E271D490600F751F6 /* Json.xcassets in Resources */,
 				9717D1C927043AB7000A1899 /* Assets.xcassets in Resources */,
+				972AC19D271D490500F751F6 /* current.city.list.json in Resources */,
 				979EDE0827085D04001342E8 /* current.city.list.json in Resources */,
 				979EDDEB27057FBE001342E8 /* Json.xcassets in Resources */,
 			);

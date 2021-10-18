@@ -97,7 +97,7 @@ class WeatherDetailViewController: UIViewController {
                 DispatchQueue.main.async {
                 self.weatherDetailView.cityLabel.text = usableData.name
                 self.weatherDetailView.weatherConditionLabel.text = usableData.weather[0].description
-                    self.weatherDetailView.temperatureLabel.text = "\(usableData.main.returnTemp)"
+                    self.weatherDetailView.temperatureLabel.text = "\(usableData.main.tempCeisius)"
                 self.weatherDetailView.maxLabel.text = "最高\(usableData.main.tempMaxCeisius)"
                     self.weatherDetailView.minLabel.text = "最低\(usableData.main.tempMinCeisius)"
                 }
@@ -110,7 +110,7 @@ class WeatherDetailViewController: UIViewController {
                 DispatchQueue.main.async {
                 self.weatherDetailView.cityLabel.text = usableData.name
                 self.weatherDetailView.weatherConditionLabel.text = usableData.weather[0].description
-                    self.weatherDetailView.temperatureLabel.text = usableData.main.returnTemp
+                    self.weatherDetailView.temperatureLabel.text = usableData.main.tempCeisius
                     self.weatherDetailView.maxLabel.text = "最高"+usableData.main.tempMaxCeisius
                     self.weatherDetailView.minLabel.text = "最低"+usableData.main.tempMinCeisius
                 }

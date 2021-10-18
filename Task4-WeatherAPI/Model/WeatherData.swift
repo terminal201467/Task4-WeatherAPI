@@ -21,6 +21,7 @@ struct WeatherCoord:Codable {
 }
 
 struct MainMessage:Codable {
+    ///Kelvin temperature
     var temp:Double
     var feels_like:Double
     var temp_min:Double
@@ -28,28 +29,38 @@ struct MainMessage:Codable {
     var pressure:Double
     var humidity:Int
     
-    
+    ///theSwitchOf
     var tempFahrenheit:String{
-        return "\(temp)°F"
+        let f = ((temp - 273.15 + 32) * 9/5).rounded()
+        return "\(f)°F"
     }
-    
     var tempCeisius:String{
-        let c = (temp - 32) * 5 / 9
-        let tempInC = "\(c.rounded())°C"
-        return tempInC
+        let c = (temp - 273.15).rounded()
+        return "\(c)°C"
     }
     
+    ///Ceisius
     var tempMinCeisius:String{
-        let c = (temp - 32) * 5 / 9
-        let tempInMinC = "\(c.rounded())°C"
-        return tempInMinC
+        let c = (temp - 273.15).rounded()
+        return "\(c)°C"
     }
     
     var tempMaxCeisius:String{
-        let c = (temp - 32) * 5 / 9
-        let tempInMaxC = "\(c.rounded())°C"
-        return tempInMaxC
+        let c = (temp - 273.15).rounded()
+        return "\(c)°C"
     }
+    
+    ///Fahrenheit
+    var tempMaxFahrenheit:String{
+        let f = ((temp - 273.15 + 32) * 9/5).rounded()
+        return "\(f)°F"
+    }
+    
+    var tempMinFahrenheit:String{
+        let f = ((temp - 273.15 + 32) * 9/5).rounded()
+        return "\(f)°F"
+    }
+    
 }
 
 struct Wind:Codable {
@@ -94,8 +105,10 @@ enum TemperatureUnit{
 
 //MARK:-WeatherMainViewController's DataStruct
 struct WeatherArray {
+    var currentWeatherData:CurrentWeatherData?
     var todayWeatherData:[CurrentWeatherData] = []
 }
+
 //MARK:-WeatherDetailViewController's DataStruct
 struct WeatherDetailData {
     var currentWeatherData:CurrentWeatherData?

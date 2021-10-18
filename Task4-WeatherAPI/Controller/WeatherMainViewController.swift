@@ -29,9 +29,8 @@ class WeatherMainViewController: UIViewController {
         }
     }
     
-    var UnitChange:Bool = true
-    
-    
+    var unitChange:Bool = true
+        
     //MARK:-LifeCycle
     override func loadView() {
         super.loadView()
@@ -64,24 +63,15 @@ class WeatherMainViewController: UIViewController {
             weatherFooterView.ceisiusLabel.textColor = .white
             weatherFooterView.fahrenheitLabel.textColor = .gray
             temp = .f
-            
-            //UnitChange
-            ///how to let this place can edit the WeatherTableViewCell change?
-            UnitChange = true
-            
-            
+            unitChange = true
             
         }else{
             print("f")
             weatherFooterView.ceisiusLabel.textColor = .gray
             weatherFooterView.fahrenheitLabel.textColor = .white
             temp = .c
-            
-            //UnitChange
-            ///how to let this place can edit the WeatherTableViewCell change?
-            UnitChange = false
-            
-            
+            unitChange = false
+
         }
     }
     
@@ -142,28 +132,29 @@ extension WeatherMainViewController:UITableViewDelegate,UITableViewDataSource{
         //return the Cell content For WeatherPage
         let cell = tableView.dequeueReusableCell(withIdentifier: WeatherViewTableViewCell.reuseIdentifier, for: indexPath) as! WeatherViewTableViewCell
         
+        ///pickout the weather in the dataStruct array
         let weather = weatherArray.todayWeatherData[indexPath.row]
         
-        UnitChange == true ? cell.configurationInCeisius(currentWeather: weather):cell.configurationInFahrenheit(currentWeather: weather)
+        unitChange == true ? cell.configurationInCeisius(currentWeather: weather):cell.configurationInFahrenheit(currentWeather: weather)
         
         return cell
     }
     
-    ///tableEditing
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        //1.can touch the cell
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        //2.touch the cell will present the weatherDetailPage
-        let weatherDetailViewController = WeatherDetailViewController()
-        weatherDetailViewController.modalTransitionStyle = .coverVertical
-        weatherDetailViewController.modalPresentationStyle = .formSheet
-        let nav = UINavigationController(rootViewController: weatherDetailViewController)
-        present(nav, animated: true, completion: nil)
-        
-        //3.showTheWeatherDetailPage,AndNeedTheData
-        
-    }
+//    ///tableEditing
+//    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+//        //1.can touch the cell
+//        tableView.deselectRow(at: indexPath, animated: true)
+//        
+//        //2.touch the cell will present the weatherDetailPage
+//        let weatherDetailViewController = WeatherDetailViewController()
+//        weatherDetailViewController.modalTransitionStyle = .coverVertical
+//        weatherDetailViewController.modalPresentationStyle = .formSheet
+//        let nav = UINavigationController(rootViewController: weatherDetailViewController)
+//        present(nav, animated: true, completion: nil)
+//
+//        //3.showTheWeatherDetailPage,AndNeedTheData
+//
+//    }
         
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
@@ -177,7 +168,6 @@ extension WeatherMainViewController:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
-    
     ///Footer
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 100

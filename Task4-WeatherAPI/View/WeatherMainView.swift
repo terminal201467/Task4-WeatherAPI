@@ -14,7 +14,7 @@ class WeatherView: UIView {
         let tableView = UITableView()
         tableView.register(WeatherViewTableViewCell.self, forCellReuseIdentifier: "WeatherCell")
         tableView.register(WeatherFooterView.self,forHeaderFooterViewReuseIdentifier: "Footer")
-        tableView.allowsSelection = true
+//        tableView.allowsSelection = true
         tableView.separatorStyle = .singleLine
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
