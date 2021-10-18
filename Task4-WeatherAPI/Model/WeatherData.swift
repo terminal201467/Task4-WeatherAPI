@@ -28,24 +28,28 @@ struct MainMessage:Codable {
     var pressure:Double
     var humidity:Int
     
-//    var tempString:String{
-//        return "\(temp)°"
-//    }
-//    
-//    var tempInFahrenheit:Double{
-//        let f = 9/5 * temp + 32
-//        return f
-//    }
-//    
-//    var tempMinFahrenheit:Double{
-//        let f = 9/5 * temp_min + 32
-//        return f
-//    }
-//    
-//    var tempMaxFahrenheit:Double{
-//        let f = 9/5 * temp_max + 32
-//        return f
-//    }
+    
+    var tempFahrenheit:String{
+        return "\(temp)°F"
+    }
+    
+    var tempCeisius:String{
+        let c = (temp - 32) * 5 / 9
+        let tempInC = "\(c.rounded())°C"
+        return tempInC
+    }
+    
+    var tempMinCeisius:String{
+        let c = (temp - 32) * 5 / 9
+        let tempInMinC = "\(c.rounded())°C"
+        return tempInMinC
+    }
+    
+    var tempMaxCeisius:String{
+        let c = (temp - 32) * 5 / 9
+        let tempInMaxC = "\(c.rounded())°C"
+        return tempInMaxC
+    }
 }
 
 struct Wind:Codable {
@@ -85,6 +89,8 @@ struct API{
 enum TemperatureUnit{
     case c,f
 }
+
+
 
 //MARK:-WeatherMainViewController's DataStruct
 struct WeatherArray {

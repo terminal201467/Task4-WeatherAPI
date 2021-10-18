@@ -74,10 +74,11 @@ class WeatherViewTableViewCell: UITableViewCell {
         ])
     }
     
+    ///in Ceisius
     func configuration(currentWeather:CurrentWeatherData){
         cityLabel.text = currentWeather.name
         ///tap the stackView will trigger the farhensive and ceisius
-        temperatureLabel.text = "\(currentWeather.main.temp)°"
+        temperatureLabel.text = currentWeather.main.tempCeisius
     }
 }
 

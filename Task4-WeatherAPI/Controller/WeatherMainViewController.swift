@@ -29,6 +29,8 @@ class WeatherMainViewController: UIViewController {
         }
     }
     
+    var UnitChange:Bool = true
+    
     
     //MARK:-LifeCycle
     override func loadView() {
@@ -64,6 +66,10 @@ class WeatherMainViewController: UIViewController {
             temp = .f
             
             //UnitChange
+            ///how to let this place can edit the WeatherTableViewCell change?
+            UnitChange = true
+            
+            
             
         }else{
             print("f")
@@ -72,6 +78,10 @@ class WeatherMainViewController: UIViewController {
             temp = .c
             
             //UnitChange
+            ///how to let this place can edit the WeatherTableViewCell change?
+            UnitChange = false
+            
+            
         }
     }
     
@@ -134,7 +144,7 @@ extension WeatherMainViewController:UITableViewDelegate,UITableViewDataSource{
         
         let weather = weatherArray.todayWeatherData[indexPath.row]
         
-        cell.configuration(currentWeather: weather)
+        UnitChange == true ? cell.configurationInCeisius(currentWeather: weather):cell.configurationInFahrenheit(currentWeather: weather)
         
         return cell
     }
@@ -142,7 +152,7 @@ extension WeatherMainViewController:UITableViewDelegate,UITableViewDataSource{
     ///tableEditing
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         //1.can touch the cell
-        tableView.deselectRow(at: indexPath, animated: false)
+        tableView.deselectRow(at: indexPath, animated: true)
         
         //2.touch the cell will present the weatherDetailPage
         let weatherDetailViewController = WeatherDetailViewController()
@@ -152,9 +162,9 @@ extension WeatherMainViewController:UITableViewDelegate,UITableViewDataSource{
         present(nav, animated: true, completion: nil)
         
         //3.showTheWeatherDetailPage,AndNeedTheData
+        
     }
         
-    
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
